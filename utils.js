@@ -1,0 +1,15 @@
+function getRandomNameBaseOne(nameBase1Valid, nameBase2Valid) {
+  const randomIndex = Math.floor(Math.random() * nameBase1Valid.length);
+  const randomIndexTwo = Math.floor(Math.random() * nameBase2Valid.length);
+  const item =
+    nameBase1Valid[randomIndex] + " " + nameBase2Valid[randomIndexTwo];
+  return item;
+}
+
+function randomPrice(minPrice, maxPrice) {
+  return Number(
+    (Math.random() * Math.abs(maxPrice - minPrice) + minPrice).toFixed(2)
+  );
+}
+
+module.exports = { getRandomNameBaseOne, randomPrice };
