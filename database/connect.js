@@ -103,6 +103,9 @@ async function updatePost(connection, id, bikeData) {
   );
   return updateRepository.find({ id: id });
 }
+function sum(a, b) {
+  return a + b;
+}
 
 module.exports = {
   connect,
@@ -111,4 +114,5 @@ module.exports = {
   deletePost,
   createPost,
   updatePost,
+  sum,
 };

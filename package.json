@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll --detectOpenHandles"
   },
   "author": "DDobrowolski",
   "license": "ISC",
@@ -14,5 +14,9 @@
     "typeorm": "^0.2.37"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3"
+  }
 }

@@ -1,6 +1,4 @@
-const express = require("express");
-const app = express();
-app.use(express.json());
+const app = require("./app");
 
 const {
   connect,
@@ -13,6 +11,13 @@ const {
 
 const PORT = 3000;
 let connection;
+
+//GET test method
+app.get("/", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  console.log("TEST");
+  res.status(200).send("hello world");
+});
 
 //GET method
 
@@ -53,9 +58,9 @@ app.patch("/api/posts/:id", async (req, res) => {
   res.send(JSON.stringify(updateBike));
 });
 
-app.listen(PORT, async () => {
+const server = app.listen(PORT, async () => {
   console.log(`Listening at localhost:${PORT}`);
   connection = await connect();
 });
 
-module.exports = { default: app };
+module.exports = server;
