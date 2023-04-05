@@ -1,11 +1,32 @@
-const server = require("./index");
-const request = require("supertest");
+const typeorm = require("typeorm");
+const TestPost = require("./models/TestPost").TestPost;
 
-// const baseURL = "http://localhost:3000";
-
-describe("/", () => {
-  test("it says hello world", async () => {
-    const response = await request(server).get("/");
-    expect(response.statusCode).toEqual(200);
+beforeEach(() => {
+  return typeorm.createConnection({
+    type: "sqlite",
+    database: "./test.sqlite3",
+    dropSchema: true,
+    entities: [require("./schemas/TestPostSchema")],
+    synchronize: true,
+    logging: false,
   });
+});
+
+afterEach(() => {
+  let conn = typeorm.getConnection();
+  return conn.close();
+});
+
+test("store BIKE and fetch it", async () => {
+  await typeorm.getRepository(TestPost).insert({
+    bikeTitle: "BIKE",
+    imgVariants: "sth",
+    price: "200",
+  });
+  let bike = await typeorm.getRepository(TestPost).find({
+    where: {
+      bikeTitle: "BIKE",
+    },
+  });
+  expect(bike[0].bikeTitle).toBe("BIKE");
 });

@@ -15,8 +15,7 @@ let connection;
 //GET test method
 app.get("/", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  console.log("TEST");
-  res.status(200).send("hello world");
+  res.send({});
 });
 
 //GET method
