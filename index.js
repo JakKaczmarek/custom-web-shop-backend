@@ -1,4 +1,5 @@
 const app = require("./app");
+const utils = require("./utils/utils");
 
 const {
   connect,
@@ -21,8 +22,9 @@ app.get("/", (req, res) => {
 //GET method
 
 app.get("/api/posts", async (req, res) => {
+  const params = utils.getParamsFromUrl(req.url);
   res.setHeader("Content-Type", "application/json");
-  const allBikes = await getAllPosts(connection);
+  const allBikes = await getAllPosts(connection, params);
   res.send(JSON.stringify(allBikes));
 });
 

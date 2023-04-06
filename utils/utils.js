@@ -11,5 +11,18 @@ function randomPrice(minPrice, maxPrice) {
     (Math.random() * Math.abs(maxPrice - minPrice) + minPrice).toFixed(2)
   );
 }
+function getParamsFromUrl(url) {
+  const params = {};
+  url
+    .split("?")[1]
+    .split("&")
+    .forEach((pair) => {
+      pair = pair.split("=").map(decodeURIComponent);
+      if (pair && pair[0].length) {
+        params[pair[0]] = pair[1];
+      }
+    });
+  return params;
+}
 
-module.exports = { getRandomNameBaseOne, randomPrice };
+module.exports = { getRandomNameBaseOne, randomPrice, getParamsFromUrl };

@@ -18,9 +18,16 @@ async function connect() {
 
 // GET all
 
-async function getAllPosts(connection) {
+async function getAllPosts(connection, params) {
   const postRepository = connection.getRepository(Post);
-  return postRepository.find();
+  return postRepository.find({
+    order: {
+      id: params.sort_order_id,
+      bikeTitle: params.sort_order_bikeTitle,
+      price: params.sort_order_price,
+      imgVariants: params.sort_order_imgVariants,
+    },
+  });
 }
 
 // GET one by url id
@@ -91,11 +98,7 @@ async function deletePost(connection, id) {
 async function updatePost(connection, id, bikeData) {
   const updateRepository = connection.getRepository(Post);
 
-
-  await updateRepository.update(
-    { id },
-    bikeData
-  );
+  await updateRepository.update({ id }, bikeData);
   return updateRepository.findOne(id);
 }
 
