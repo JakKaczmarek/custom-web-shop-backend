@@ -27,7 +27,7 @@ async function getAllPosts(connection) {
 
 async function getPost(connection, id) {
   const getBike = connection.getRepository(Post);
-  return getBike.find({ id: id });
+  return getBike.find({ id });
 }
 
 // POST
@@ -58,51 +58,47 @@ async function createPost(connection, bikeData) {
     `/bikesImages/bikeX/Variant4`,
   ];
 
-  const createBike = new Post();
-  createBike.bikeTitle = utils.getRandomNameBaseOne(
+  const newBike = new Post();
+  newBike.bikeTitle = utils.getRandomNameBaseOne(
     nameBase1Valid,
     nameBase2Valid
   );
-  createBike.imgVariants = JSON.stringify(imgVariantsValid);
-  createBike.price = utils.randomPrice(minPrice || 10, maxPrice || 20);
+  newBike.imgVariants = JSON.stringify(imgVariantsValid);
+  newBike.price = utils.randomPrice(minPrice || 10, maxPrice || 20);
 
   const postRepository = connection.getRepository(Post);
-  const savedPost = await postRepository.save(createBike);
+  const savedPost = await postRepository.save(newBike);
   console.log("Post has been saved: ", savedPost);
-  const getBikes = connection.getRepository(Post);
+
+  // return savedPost;
 
   // IF imgVariants is VARCHAR then use:
-  const bikesParsed = await getBikes.find({ price: createBike.price });
-  bikesParsed.forEach((element) => {
-    element.imgVariants = JSON.parse(element.imgVariants);
-  });
+  const bikesParsed = await postRepository.findOne(savedPost.id);
+  bikesParsed.imgVariants = JSON.parse(bikesParsed.imgVariants);
   return bikesParsed;
 }
 
 // DELETE
 
 async function deletePost(connection, id) {
-  const delBike = connection.getRepository(Post);
-  await delBike.delete({ id });
-  return delBike.find();
+  const bikeRepository = connection.getRepository(Post);
+  await bikeRepository.delete({ id });
+  return bikeRepository.find();
 }
 
 // PATCH
 
 async function updatePost(connection, id, bikeData) {
-  const { newBikeTitle, newImgVariants, newPrice } = bikeData;
-
   const updateRepository = connection.getRepository(Post);
+
+
   await updateRepository.update(
     { id },
-    {
-      bikeTitle: newBikeTitle,
-      imgVariants: newImgVariants,
-      price: newPrice,
-    }
+    bikeData
   );
-  return updateRepository.find({ id: id });
+  return updateRepository.findOne(id);
 }
+
 function sum(a, b) {
   return a + b;
 }
