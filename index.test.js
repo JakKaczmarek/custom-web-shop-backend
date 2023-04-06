@@ -20,7 +20,7 @@ afterEach(() => {
 test("store BIKE and fetch it", async () => {
   await typeorm.getRepository(TestPost).insert({
     bikeTitle: "BIKE",
-    imgVariants: "sth",
+    imgVariants: "test",
     price: "200",
   });
   let bike = await typeorm.getRepository(TestPost).find({
