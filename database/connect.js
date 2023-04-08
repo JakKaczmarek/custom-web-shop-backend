@@ -31,7 +31,6 @@ async function getAllPosts(connection, params) {
   });
 }
 
-// bikeTitle: params.q,
 // GET one by url id
 
 async function getPost(connection, id) {

@@ -1,4 +1,4 @@
-function getRandomNameBaseOne(nameBase1Valid, nameBase2Valid) {
+function getRandomNameBaseOneTest(nameBase1Valid, nameBase2Valid) {
   const randomIndex = Math.floor(Math.random() * nameBase1Valid.length);
   const randomIndexTwo = Math.floor(Math.random() * nameBase2Valid.length);
   const item =
@@ -6,7 +6,7 @@ function getRandomNameBaseOne(nameBase1Valid, nameBase2Valid) {
   return item;
 }
 
-function randomPrice(minPrice, maxPrice) {
+function randomPriceTest(minPrice, maxPrice) {
   return Number(
     (Math.random() * Math.abs(maxPrice - minPrice) + minPrice).toFixed(2)
   );
@@ -25,4 +25,8 @@ function getParamsFromUrl(url) {
   return params;
 }
 
-module.exports = { getRandomNameBaseOne, randomPrice, getParamsFromUrl };
+module.exports = {
+  getRandomNameBaseOneTest,
+  randomPriceTest,
+  getParamsFromUrl,
+};
