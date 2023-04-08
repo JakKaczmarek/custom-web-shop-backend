@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-app.use(express.static("public"));
+app.use("/api/bikes", express.static("public"));
 
+/* 
+static public
+for example when u click or type like below:
+ http://localhost:3001/api/bikes/bikesImages/bike1/bike1.jpg
+*/
 module.exports = app;
 
 /*
