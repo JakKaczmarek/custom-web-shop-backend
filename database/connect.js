@@ -1,5 +1,5 @@
 const typeorm = require("typeorm");
-const utils = require("../utils/utils");
+// const utils = require("../utils/utils");
 const Bikes = require("../models/Bikes").Bikes;
 
 async function connect() {
