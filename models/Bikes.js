@@ -1,4 +1,4 @@
-class Post {
+class Bikes {
   constructor(id, imgVariants, bikeTitle, price) {
     this.id = id;
     this.bikeTitle = bikeTitle;
@@ -8,5 +8,5 @@ class Post {
 }
 
 module.exports = {
-  Post,
+  Bikes,
 };

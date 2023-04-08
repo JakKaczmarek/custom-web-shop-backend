@@ -1,6 +1,6 @@
 const typeorm = require("typeorm");
 const utils = require("../utils/utils");
-const Post = require("../models/Post").Post;
+const Bikes = require("../models/Bikes").Bikes;
 
 async function connect() {
   try {
@@ -9,7 +9,7 @@ async function connect() {
       database: "./bikes.sqlite3",
       synchronize: true,
       logging: false,
-      entities: [require("../schemas/PostSchema")],
+      entities: [require("../schemas/BikesSchema")],
     });
   } catch (error) {
     console.log("Error: ", error);
@@ -19,7 +19,7 @@ async function connect() {
 // GET all
 
 async function getAllPosts(connection, params) {
-  const postRepository = connection.getRepository(Post);
+  const postRepository = connection.getRepository(Bikes);
   return postRepository.find({
     order: {
       id: params.sort_order_id,
@@ -27,37 +27,23 @@ async function getAllPosts(connection, params) {
       price: params.sort_order_price,
       imgVariants: params.sort_order_imgVariants,
     },
+    where: [{ price: params.q }, { bikeTitle: params.q }],
   });
 }
 
+// bikeTitle: params.q,
 // GET one by url id
 
 async function getPost(connection, id) {
-  const getBike = connection.getRepository(Post);
-  return getBike.find({ id });
+  const getPost = connection.getRepository(Bikes);
+  return getPost.find({ id });
 }
 
 // POST
 
 async function createPost(connection, bikeData) {
-  const { minPrice, maxPrice, nameBase1, nameBase2, imgVariants } = bikeData;
+  const { price, bikeTitle, imgVariants } = bikeData;
 
-  const nameBase1Valid = nameBase1 || [
-    "bike1",
-    "bike2",
-    "bike3",
-    "bike4",
-    "bike5",
-    "bike6",
-  ];
-  const nameBase2Valid = nameBase2 || [
-    "title1",
-    "title2",
-    "title3",
-    "title4",
-    "title5",
-    "title6",
-  ];
   const imgVariantsValid = imgVariants || [
     `/bikesImages/bikeX/Variant1`,
     `/bikesImages/bikeX/Variant2`,
@@ -65,45 +51,38 @@ async function createPost(connection, bikeData) {
     `/bikesImages/bikeX/Variant4`,
   ];
 
-  const newBike = new Post();
-  newBike.bikeTitle = utils.getRandomNameBaseOne(
-    nameBase1Valid,
-    nameBase2Valid
-  );
-  newBike.imgVariants = JSON.stringify(imgVariantsValid);
-  newBike.price = utils.randomPrice(minPrice || 10, maxPrice || 20);
+  const newPost = new Bikes();
+  newPost.bikeTitle = bikeTitle;
+  newPost.imgVariants = JSON.stringify(imgVariantsValid);
+  newPost.price = price;
 
-  const postRepository = connection.getRepository(Post);
-  const savedPost = await postRepository.save(newBike);
+  const postRepository = connection.getRepository(Bikes);
+  const savedPost = await postRepository.save(newPost);
   console.log("Post has been saved: ", savedPost);
 
   // return savedPost;
 
   // IF imgVariants is VARCHAR then use:
-  const bikesParsed = await postRepository.findOne(savedPost.id);
-  bikesParsed.imgVariants = JSON.parse(bikesParsed.imgVariants);
-  return bikesParsed;
+  const parsedPost = await postRepository.findOne(savedPost.id);
+  parsedPost.imgVariants = JSON.parse(parsedPost.imgVariants);
+  return parsedPost;
 }
 
 // DELETE
 
 async function deletePost(connection, id) {
-  const bikeRepository = connection.getRepository(Post);
-  await bikeRepository.delete({ id });
-  return bikeRepository.find();
+  const postRepository = connection.getRepository(Bikes);
+  await postRepository.delete({ id });
+  return postRepository.find();
 }
 
 // PATCH
 
 async function updatePost(connection, id, bikeData) {
-  const updateRepository = connection.getRepository(Post);
+  const updateRepository = connection.getRepository(Bikes);
 
   await updateRepository.update({ id }, bikeData);
   return updateRepository.findOne(id);
-}
-
-function sum(a, b) {
-  return a + b;
 }
 
 module.exports = {
@@ -113,5 +92,4 @@ module.exports = {
   deletePost,
   createPost,
   updatePost,
-  sum,
 };

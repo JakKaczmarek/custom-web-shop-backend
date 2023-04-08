@@ -1,9 +1,9 @@
 const EntitySchema = require("typeorm").EntitySchema;
-const Post = require("../models/Post").Post;
+const Bikes = require("../models/Bikes").Bikes;
 
 module.exports = new EntitySchema({
-  name: "Post",
-  target: Post,
+  name: "bikes",
+  target: Bikes,
   columns: {
     id: {
       primary: true,

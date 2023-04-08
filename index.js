@@ -10,7 +10,7 @@ const {
   updatePost,
 } = require("./database/connect");
 
-const PORT = 3000;
+const PORT = 3001;
 let connection;
 
 //GET test method
@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 
 //GET method
 
-app.get("/api/posts", async (req, res) => {
+app.get("/api/bikes", async (req, res) => {
   const params = utils.getParamsFromUrl(req.url);
   res.setHeader("Content-Type", "application/json");
   const allBikes = await getAllPosts(connection, params);
@@ -30,14 +30,14 @@ app.get("/api/posts", async (req, res) => {
 
 // DELETE bike
 
-app.delete("/api/posts/:id", async (req, res) => {
+app.delete("/api/bikes/:id", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const id = req.params.id;
   const deleteBike = await deletePost(connection, id);
   res.send(JSON.stringify(deleteBike));
 });
 // GET by id method
-app.get("/api/posts/:id", async (req, res) => {
+app.get("/api/bikes/:id", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const id = req.params.id;
   const getBike = await getPost(connection, id);
@@ -46,13 +46,13 @@ app.get("/api/posts/:id", async (req, res) => {
 
 //POST method
 
-app.post("/api/posts", async (req, res) => {
+app.post("/api/bikes", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const bike = await createPost(connection, req.body);
   res.send(JSON.stringify(bike));
 });
 
-app.patch("/api/posts/:id", async (req, res) => {
+app.patch("/api/bikes/:id", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const id = req.params.id;
   const updateBike = await updatePost(connection, id, req.body);
