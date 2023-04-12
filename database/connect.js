@@ -1,6 +1,6 @@
 const typeorm = require("typeorm");
-// const utils = require("../utils/utils");
 const Bikes = require("../models/Bikes").Bikes;
+const Images = require("../models/Images").Images;
 
 async function connect() {
   try {
@@ -9,23 +9,25 @@ async function connect() {
       database: "./bikes.sqlite3",
       synchronize: true,
       logging: false,
-      entities: [require("../schemas/BikesSchema")],
+      entities: [
+        require("../schemas/BikesSchema"),
+        require("../schemas/ImagesSchema"),
+      ],
     });
   } catch (error) {
     console.log("Error: ", error);
   }
 }
 
-// GET all
+// GET all where
 
-async function getAllPosts(connection, params) {
+async function getAllPostsWhere(connection, params) {
   const postRepository = connection.getRepository(Bikes);
   return postRepository.find({
     order: {
       id: params.sort_order_id,
       bikeTitle: params.sort_order_bikeTitle,
       price: params.sort_order_price,
-      imgVariants: params.sort_order_imgVariants,
     },
     where: [{ price: params.q }, { bikeTitle: params.q }],
   });
@@ -41,30 +43,36 @@ async function getPost(connection, id) {
 // POST
 
 async function createPost(connection, bikeData) {
-  const { price, bikeTitle, imgVariants } = bikeData;
+  const { price, bikeTitle, imagesID } = bikeData;
 
-  const imgVariantsValid = imgVariants || [
-    `/bikesImages/bikeX/Variant1`,
-    `/bikesImages/bikeX/Variant2`,
-    `/bikesImages/bikeX/Variant3`,
-    `/bikesImages/bikeX/Variant4`,
-  ];
+  // const imagesTest = new Images();
+  // paths = JSON.stringify([
+  //   `/bikesImages/bike1/Variant1.jpg`,
+  //   `/bikesImages/bike1/Variant2.jpg`,
+  //   `/bikesImages/bike1/Variant3.jpg`,
+  //   `/bikesImages/bike1/Variant4.jpg`,
+  // ]);
+
+  // await connection.manager.save(imagesTest);
 
   const newPost = new Bikes();
+
   newPost.bikeTitle = bikeTitle;
-  newPost.imgVariants = JSON.stringify(imgVariantsValid);
   newPost.price = price;
+  newPost.imagesID = imagesID;
+
+  // newPost.imgVariants = imagesTest;
 
   const postRepository = connection.getRepository(Bikes);
   const savedPost = await postRepository.save(newPost);
+
   console.log("Post has been saved: ", savedPost);
 
-  // return savedPost;
+  return savedPost;
 
   // IF imgVariants is VARCHAR then use:
-  const parsedPost = await postRepository.findOne(savedPost.id);
-  parsedPost.imgVariants = JSON.parse(parsedPost.imgVariants);
-  return parsedPost;
+  // const createdPost = await postRepository.findOne(savedPost.id);
+  // return createdPost;
 }
 
 // DELETE
@@ -86,7 +94,7 @@ async function updatePost(connection, id, bikeData) {
 
 module.exports = {
   connect,
-  getAllPosts,
+  getAllPostsWhere,
   getPost,
   deletePost,
   createPost,

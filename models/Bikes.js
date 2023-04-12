@@ -1,9 +1,9 @@
 class Bikes {
-  constructor(id, imgVariants, bikeTitle, price) {
+  constructor(id, bikeTitle, price, imagesID) {
     this.id = id;
     this.bikeTitle = bikeTitle;
-    this.imgVariants = imgVariants;
     this.price = price;
+    this.imagesID = imagesID;
   }
 }
 

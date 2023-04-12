@@ -4,7 +4,7 @@ const utils = require("./utils/utils");
 const {
   connect,
   getPost,
-  getAllPosts,
+  getAllPostsWhere,
   deletePost,
   createPost,
   updatePost,
@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 app.get("/api/bikes", async (req, res) => {
   const params = utils.getParamsFromUrl(req.url);
   res.setHeader("Content-Type", "application/json");
-  const allBikes = await getAllPosts(connection, params);
+  const allBikes = await getAllPostsWhere(connection, params);
   res.send(JSON.stringify(allBikes));
 });
 
