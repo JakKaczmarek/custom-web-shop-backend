@@ -17,17 +17,13 @@ module.exports = new EntitySchema({
     price: {
       type: "int",
     },
-    imagesID: {
-      type: "int",
+  },
+  relations: {
+    images: {
+      target: "Images",
+      type: "many-to-many",
+      joinTable: true,
+      cascade: true,
     },
   },
-
-  // relations: {
-  //   categories: {
-  //     target: "Images",
-  //     type: "one-to-many",
-  //     joinTable: true,
-  //     cascade: true,
-  //   },
-  // },
 });

@@ -2,7 +2,7 @@ const EntitySchema = require("typeorm").EntitySchema;
 const Images = require("../models/Images").Images;
 
 module.exports = new EntitySchema({
-  name: "Images",
+  name: "images",
   target: Images,
   columns: {
     id: {

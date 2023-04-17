@@ -19,4 +19,9 @@ module.exports = app;
   2. Bike może mieć wiele images, images ma jeden bike
   3. Images przechowuje path
   4. np. { path: "/img/bike1/variant1.jpg" }
+  Zad 3
+  1.Relacje miedzy images a paths
+  2.Połączyć front z back 
+  
+
 */

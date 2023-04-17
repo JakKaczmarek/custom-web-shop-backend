@@ -30,20 +30,28 @@ async function getAllPostsWhere(connection, params) {
       price: params.sort_order_price,
     },
     where: [{ price: params.q }, { bikeTitle: params.q }],
+    relations: ["images"],
+    loadRelations: true,
   });
 }
 
 // GET one by url id
 
-async function getPost(connection, id) {
+async function getPost(connection, params) {
   const getPost = connection.getRepository(Bikes);
-  return getPost.find({ id });
+  return getPost.find({
+    where: {
+      id: params.q,
+    },
+    relations: ["images"],
+    loadRelations: true,
+  });
 }
 
 // POST
 
 async function createPost(connection, bikeData) {
-  const { price, bikeTitle, imagesID } = bikeData;
+  const { price, bikeTitle } = bikeData;
 
   // const imagesTest = new Images();
   // paths = JSON.stringify([
@@ -54,12 +62,14 @@ async function createPost(connection, bikeData) {
   // ]);
 
   // await connection.manager.save(imagesTest);
+  const category1 = new Images("TestPath");
+  await connection.manager.save([category1]);
 
   const newPost = new Bikes();
 
   newPost.bikeTitle = bikeTitle;
   newPost.price = price;
-  newPost.imagesID = imagesID;
+  newPost.images = [category1];
 
   // newPost.imgVariants = imagesTest;
 

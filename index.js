@@ -37,10 +37,10 @@ app.delete("/api/bikes/:id", async (req, res) => {
   res.send(JSON.stringify(deleteBike));
 });
 // GET by id method
-app.get("/api/bikes/:id", async (req, res) => {
+app.get("/api/bikes/id", async (req, res) => {
+  const params = utils.getParamsFromUrl(req.url);
   res.setHeader("Content-Type", "application/json");
-  const id = req.params.id;
-  const getBike = await getPost(connection, id);
+  const getBike = await getPost(connection, params);
   res.send(JSON.stringify(getBike));
 });
 
