@@ -22,6 +22,4 @@ module.exports = app;
   Zad 3
   1.Relacje miedzy images a paths
   2.Połączyć front z back 
-  
-
 */

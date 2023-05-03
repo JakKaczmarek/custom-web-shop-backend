@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest"
   },
-  "author": "DDobrowolski",
+  "author": "JakKaczmarek",
   "license": "ISC",
   "dependencies": {
     "better-sqlite3": "^8.2.0",
@@ -16,7 +16,16 @@
   "keywords": [],
   "description": "",
   "devDependencies": {
+    "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
     "jest": "^29.5.0",
+    "prettier": "^2.8.8",
     "supertest": "^6.3.3"
   }
 }
