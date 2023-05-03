@@ -1,9 +1,10 @@
 {
   "name": "express_hello_world",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "node index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node index.js"
   },
   "author": "JakKaczmarek",
   "license": "ISC",
