@@ -25,8 +25,4 @@ function getParamsFromUrl(url) {
   return params;
 }
 
-module.exports = {
-  getRandomNameBaseOneTest,
-  randomPriceTest,
-  getParamsFromUrl,
-};
+export { getRandomNameBaseOneTest, randomPriceTest, getParamsFromUrl };

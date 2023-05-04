@@ -1,23 +1,27 @@
-const typeorm = require("typeorm");
-const Bikes = require("../models/Bikes").Bikes;
-const Images = require("../models/Images").Images;
+import { createConnection } from "typeorm";
+import { Bikes } from "../models/Bikes.js";
+import { Images } from "../models/Images.js";
+import BikesSchema from "../schemas/BikesSchema.js";
+import ImagesSchema from "../schemas/ImagesSchema.js";
 
-async function connect() {
+const connectServer = async () => {
   try {
-    return await typeorm.createConnection({
+    return await createConnection({
       type: "sqlite",
       database: "./bikes.sqlite3",
       synchronize: true,
       logging: false,
       entities: [
-        require("../schemas/BikesSchema"),
-        require("../schemas/ImagesSchema"),
+        // require("../schemas/BikesSchema").default,
+        // require("../schemas/ImagesSchema"),
+        BikesSchema,
+        ImagesSchema,
       ],
     });
   } catch (error) {
     console.log("Error: ", error);
   }
-}
+};
 
 // GET all where
 
@@ -52,16 +56,6 @@ async function getPost(connection, params) {
 
 async function createPost(connection, bikeData) {
   const { price, bikeTitle } = bikeData;
-
-  // const imagesTest = new Images();
-  // paths = JSON.stringify([
-  //   `/bikesImages/bike1/Variant1.jpg`,
-  //   `/bikesImages/bike1/Variant2.jpg`,
-  //   `/bikesImages/bike1/Variant3.jpg`,
-  //   `/bikesImages/bike1/Variant4.jpg`,
-  // ]);
-
-  // await connection.manager.save(imagesTest);
   const category1 = new Images("TestPath");
   await connection.manager.save([category1]);
 
@@ -70,8 +64,6 @@ async function createPost(connection, bikeData) {
   newPost.bikeTitle = bikeTitle;
   newPost.price = price;
   newPost.images = [category1];
-
-  // newPost.imgVariants = imagesTest;
 
   const postRepository = connection.getRepository(Bikes);
   const savedPost = await postRepository.save(newPost);
@@ -102,8 +94,8 @@ async function updatePost(connection, id, bikeData) {
   return updateRepository.findOne(id);
 }
 
-module.exports = {
-  connect,
+export {
+  connectServer,
   getAllPostsWhere,
   getPost,
   deletePost,

@@ -6,6 +6,7 @@
     "test": "jest",
     "start": "node index.js"
   },
+  "type": "module",
   "author": "JakKaczmarek",
   "license": "ISC",
   "dependencies": {

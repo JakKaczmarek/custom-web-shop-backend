@@ -1,7 +1,8 @@
-const EntitySchema = require("typeorm").EntitySchema;
-const Images = require("../models/Images").Images;
+import { EntitySchema } from "typeorm";
+import { Images } from "../models/Images.js";
+// const Images = require("../models/Images.js").default.Images;
 
-module.exports = new EntitySchema({
+export default new EntitySchema({
   name: "images",
   target: Images,
   columns: {
