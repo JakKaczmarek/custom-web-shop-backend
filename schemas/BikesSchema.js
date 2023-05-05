@@ -1,7 +1,5 @@
 import { EntitySchema } from "typeorm";
 import { Bikes } from "../models/Bikes.js";
-// const Bikes = require("../models/Bikes").default.Bikes;
-// const Images = require("../models/Images").default.Images;
 
 export default new EntitySchema({
   name: "bikes",

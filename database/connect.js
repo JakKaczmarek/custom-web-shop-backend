@@ -11,12 +11,7 @@ const connectServer = async () => {
       database: "./bikes.sqlite3",
       synchronize: true,
       logging: false,
-      entities: [
-        // require("../schemas/BikesSchema").default,
-        // require("../schemas/ImagesSchema"),
-        BikesSchema,
-        ImagesSchema,
-      ],
+      entities: [BikesSchema, ImagesSchema],
     });
   } catch (error) {
     console.log("Error: ", error);
@@ -25,9 +20,12 @@ const connectServer = async () => {
 
 // GET all where
 
-async function getAllPostsWhere(connection, params) {
-  const postRepository = connection.getRepository(Bikes);
-  return postRepository.find({
+async function getAllBikesWhere(connection, params) {
+  const bikeRepository = connection.getRepository(Bikes);
+  return bikeRepository.find({
+    // order: {
+    //   [params.id]: params.sort_order,
+    // },
     order: {
       id: params.sort_order_id,
       bikeTitle: params.sort_order_bikeTitle,
@@ -41,9 +39,9 @@ async function getAllPostsWhere(connection, params) {
 
 // GET one by url id
 
-async function getPost(connection, params) {
+async function getOneBike(connection, params) {
   const getPost = connection.getRepository(Bikes);
-  return getPost.find({
+  return getPost.findOne({
     where: {
       id: params.q,
     },
@@ -54,7 +52,7 @@ async function getPost(connection, params) {
 
 // POST
 
-async function createPost(connection, bikeData) {
+async function createBike(connection, bikeData) {
   const { price, bikeTitle } = bikeData;
   const category1 = new Images("TestPath");
   await connection.manager.save([category1]);
@@ -65,40 +63,36 @@ async function createPost(connection, bikeData) {
   newPost.price = price;
   newPost.images = [category1];
 
-  const postRepository = connection.getRepository(Bikes);
-  const savedPost = await postRepository.save(newPost);
+  const bikeRepository = connection.getRepository(Bikes);
+  const savedBike = await bikeRepository.save(newPost);
 
-  console.log("Post has been saved: ", savedPost);
+  console.log("Post has been saved: ", savedBike);
 
-  return savedPost;
-
-  // IF imgVariants is VARCHAR then use:
-  // const createdPost = await postRepository.findOne(savedPost.id);
-  // return createdPost;
+  return savedBike;
 }
 
 // DELETE
 
-async function deletePost(connection, id) {
-  const postRepository = connection.getRepository(Bikes);
-  await postRepository.delete({ id });
-  return postRepository.find();
+async function deleteOneBike(connection, id) {
+  const bikeRepository = connection.getRepository(Bikes);
+  await bikeRepository.delete({ id });
+  return bikeRepository.find();
 }
 
 // PATCH
 
-async function updatePost(connection, id, bikeData) {
-  const updateRepository = connection.getRepository(Bikes);
+async function updateBike(connection, id, bikeData) {
+  const updateBikeRepository = connection.getRepository(Bikes);
 
-  await updateRepository.update({ id }, bikeData);
-  return updateRepository.findOne(id);
+  await updateBikeRepository.update({ id }, bikeData);
+  return updateBikeRepository.findOne(id);
 }
 
 export {
   connectServer,
-  getAllPostsWhere,
-  getPost,
-  deletePost,
-  createPost,
-  updatePost,
+  getAllBikesWhere,
+  getOneBike,
+  deleteOneBike,
+  createBike,
+  updateBike,
 };
