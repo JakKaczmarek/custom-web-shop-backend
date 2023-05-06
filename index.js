@@ -56,8 +56,8 @@ app.post("/api/bikes", async (req, res) => {
 app.patch("/api/bikes/:id", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const id = req.params.id;
-  const updateBike = await updateBike(connection, id, req.body);
-  res.send(JSON.stringify(updateBike));
+  const updateNewBike = await updateBike(connection, id, req.body);
+  res.send(JSON.stringify(updateNewBike));
 });
 
 const server = app.listen(PORT, async () => {

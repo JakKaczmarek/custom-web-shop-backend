@@ -22,16 +22,12 @@ const connectServer = async () => {
 
 async function getAllBikesWhere(connection, params) {
   const bikeRepository = connection.getRepository(Bikes);
+  console.log(params)
   return bikeRepository.find({
-    // order: {
-    //   [params.id]: params.sort_order,
-    // },
     order: {
-      id: params.sort_order_id,
-      bikeTitle: params.sort_order_bikeTitle,
-      price: params.sort_order_price,
+      [params.sort_column]: params.sort_order,
     },
-    where: [{ price: params.q }, { bikeTitle: params.q }],
+    where: [{ price: params.price }, { bikeTitle: params.bikeTitle }],
     relations: ["images"],
     loadRelations: true,
   });
@@ -43,7 +39,7 @@ async function getOneBike(connection, params) {
   const getPost = connection.getRepository(Bikes);
   return getPost.findOne({
     where: {
-      id: params.q,
+      id: params.id,
     },
     relations: ["images"],
     loadRelations: true,
