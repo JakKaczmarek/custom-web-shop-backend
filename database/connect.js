@@ -22,7 +22,7 @@ const connectServer = async () => {
 
 async function getAllBikesWhere(connection, params) {
   const bikeRepository = connection.getRepository(Bikes);
-  console.log(params)
+  console.log(params);
   return bikeRepository.find({
     order: {
       [params.sort_column]: params.sort_order,
