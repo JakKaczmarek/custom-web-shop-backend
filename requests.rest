@@ -1,1 +1,1 @@
-GET http://localhost:3001/bikes2?page=1&limit=5
+GET http://localhost:3001/bikes?page=2&limit=3

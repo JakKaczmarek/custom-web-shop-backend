@@ -18,11 +18,21 @@ const connectServer = async () => {
   }
 };
 
+async function getAllBikesWithPagination(connection, params) {
+  const bikeRepository = connection.getRepository(Bikes);
+  const take = params.limit || 10;
+  const page = params.page || 1;
+  const skip = (page - 1) * take;
+  return bikeRepository.find({
+    skip: skip,
+    take: take,
+  });
+}
+
 // GET all where
 
 async function getAllBikesWhere(connection, params) {
   const bikeRepository = connection.getRepository(Bikes);
-  console.log(params);
   return bikeRepository.find({
     order: {
       [params.sort_column]: params.sort_order,
@@ -91,4 +101,5 @@ export {
   deleteOneBike,
   createBike,
   updateBike,
+  getAllBikesWithPagination,
 };

@@ -8,72 +8,18 @@ import {
   deleteOneBike,
   createBike,
   updateBike,
+  getAllBikesWithPagination,
 } from "./database/connect.js";
 
 const PORT = 3001;
 let connection;
 
-// GET TEST Pagination http://localhost:3001/bikes?page=1&limit=3
-
-const bikes = [
-  { id: 1, name: "bike1" },
-  { id: 2, name: "bike2" },
-  { id: 3, name: "bike3" },
-  { id: 4, name: "bike4" },
-  { id: 5, name: "bike5" },
-  { id: 6, name: "bike6" },
-];
-
-const bikes2 = [
-  { id: 11, name: "bike11" },
-  { id: 22, name: "bike22" },
-  { id: 33, name: "bike33" },
-  { id: 44, name: "bike44" },
-  { id: 55, name: "bike55" },
-  { id: 66, name: "bike66" },
-];
-
-app.get("/bikes2", paginatedResults(bikes2), (req, res) => {
-  res.send(res.paginatedResults);
-});
-
-app.get("/bikes", paginatedResults(bikes), (req, res) => {
-  res.send(res.paginatedResults);
-});
-
-// function to move
-function paginatedResults(model) {
-  return (req, res, next) => {
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
-    const results = {};
-    if (endIndex < model.length) {
-      results.next = {
-        page: page + 1,
-        limit: limit,
-      };
-    }
-    if (startIndex > 0) {
-      results.previous = {
-        page: page - 1,
-        limit: limit,
-      };
-    }
-
-    results.results = model.slice(startIndex, endIndex);
-    res.paginatedResults = results;
-    next();
-  };
-}
-
-//GET test method
-app.get("/", (req, res) => {
+//GET - Pagination for example http://localhost:3001/bikes?limit=4&page=2
+app.get("/bikes", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.send({});
+  const params = getParamsFromUrl(req.url);
+  const allBikes = await getAllBikesWithPagination(connection, params);
+  res.send(JSON.stringify(allBikes));
 });
 
 //GET method
