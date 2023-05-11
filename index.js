@@ -10,12 +10,13 @@ import {
   getAllBikesWithPagination,
 } from "./database/connect.js";
 import * as path from "path";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import fileUpload from "express-fileupload";
-const __filename = fileURLToPath(import.meta.url);
+import { dirname } from "path";
+const mydir = "./index.js";
+const __filename = path.resolve(mydir);
 const __dirname = dirname(__filename);
 
+console.log(__dirname);
 app.use(
   fileUpload({
     limits: {
@@ -28,7 +29,7 @@ app.use(
 const PORT = 3000;
 let connection;
 
-// Uploading files http://localhost:3001
+// Uploading files http://localhost:3000
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
@@ -49,7 +50,7 @@ app.post("/upload", (req, res) => {
   });
 });
 
-//GET - Pagination for example http://localhost:3001/bikes?limit=4&page=2
+//GET - Pagination for example http://localhost:3000/bikes?limit=4&page=2
 app.get("/bikes", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const params = getParamsFromUrl(req.url);
