@@ -16,7 +16,6 @@ const mydir = "./index.js";
 const __filename = path.resolve(mydir);
 const __dirname = dirname(__filename);
 
-console.log(__dirname);
 app.use(
   fileUpload({
     limits: {
@@ -39,8 +38,8 @@ app.post("/upload", (req, res) => {
     return res.status(400).send("No files were uploaded.");
   }
   const file = req.files.myFile;
-
-  const path = __dirname + "/public/bikesImages" + file.name;
+  const path = __dirname + "/public/bikesImages/bikeTest/" + file.name;
+  console.log(file.name);
 
   file.mv(path, (err) => {
     if (err) {
