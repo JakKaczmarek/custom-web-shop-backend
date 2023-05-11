@@ -25,7 +25,7 @@ app.use(
   })
 );
 
-const PORT = 3001;
+const PORT = 3000;
 let connection;
 
 // Uploading files http://localhost:3001
