@@ -28,6 +28,12 @@ app.use(
 const PORT = 3000;
 let connection;
 
+// TEST GET
+app.get("/test", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).send({ bikeTitle: "testBike" });
+});
+
 // Uploading files http://localhost:3000
 
 app.get("/", (req, res) => {
@@ -39,7 +45,6 @@ app.post("/upload", (req, res) => {
   }
   const file = req.files.myFile;
   const path = __dirname + "/public/bikesImages/bikeTest/" + file.name;
-  console.log(file.name);
 
   file.mv(path, (err) => {
     if (err) {

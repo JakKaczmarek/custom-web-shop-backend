@@ -71,9 +71,6 @@ async function createBike(connection, bikeData) {
 
   const bikeRepository = connection.getRepository(Bikes);
   const savedBike = await bikeRepository.save(newPost);
-
-  console.log("Post has been saved: ", savedBike);
-
   return savedBike;
 }
 
