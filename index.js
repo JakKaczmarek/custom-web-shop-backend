@@ -10,20 +10,10 @@ import {
   getAllBikesWithPagination,
 } from "./database/connect.js";
 import * as path from "path";
-import fileUpload from "express-fileupload";
 import { dirname } from "path";
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
 const __dirname = dirname(__filename);
-
-app.use(
-  fileUpload({
-    limits: {
-      fileSize: 10000000,
-    },
-    abortOnLimit: true,
-  })
-);
 
 const PORT = 3000;
 let connection;
