@@ -56,11 +56,30 @@ async function getOneBike(connection, params) {
   });
 }
 
+// UPLOADING files with path
+
+async function createBikePath(connection, data) {
+  const name = data;
+  console.log(name);
+  const category1 = new Images(`/images/${name}`);
+  await connection.manager.save([category1]);
+
+  const newPost = new Bikes();
+
+  newPost.bikeTitle = "testBike";
+  newPost.price = 200;
+  newPost.images = [category1];
+
+  const bikeRepository = connection.getRepository(Bikes);
+  const savedBike = await bikeRepository.save(newPost);
+  return savedBike;
+}
+
 // POST
 
 async function createBike(connection, bikeData) {
   const { price, bikeTitle } = bikeData;
-  const category1 = new Images("TestPath");
+  const category1 = new Images("/images/{name}.png");
   await connection.manager.save([category1]);
 
   const newPost = new Bikes();
@@ -99,4 +118,5 @@ export {
   createBike,
   updateBike,
   getAllBikesWithPagination,
+  createBikePath,
 };

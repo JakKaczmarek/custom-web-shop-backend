@@ -8,9 +8,11 @@ import {
   createBike,
   updateBike,
   getAllBikesWithPagination,
+  createBikePath,
 } from "./database/connect.js";
 import * as path from "path";
 import { dirname } from "path";
+import { stringify } from "querystring";
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
 const __dirname = dirname(__filename);
@@ -29,18 +31,20 @@ app.get("/test", (req, res) => {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
-app.post("/upload", (req, res) => {
+app.post("/upload", async (req, res) => {
   if (!req.files) {
     return res.status(400).send("No files were uploaded.");
   }
   const file = req.files.myFile;
   const path = __dirname + "/public/bikesImages/bikeTest/" + file.name;
+  const bike = await createBikePath(connection, file.name);
+  console.log(file.name);
 
   file.mv(path, (err) => {
     if (err) {
       return res.status(500).send(err);
     }
-    return res.send({ status: "success", path: path });
+    return res.send(JSON.stringify(bike) && { status: "success", path: path });
   });
 });
 
