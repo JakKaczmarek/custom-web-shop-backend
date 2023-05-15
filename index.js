@@ -3,7 +3,6 @@ import { getParamsFromUrl } from "./utils/utils.js";
 import * as path from "path";
 import { dirname } from "path";
 import {
-  connectServer,
   getAllBikesWhere,
   getOneBike,
   deleteOneBike,
@@ -11,7 +10,8 @@ import {
   updateBike,
   getAllBikesWithPagination,
   createBikePath,
-} from "./database/connect.js";
+} from "./services/BikeService.js";
+import { connectServer } from "./database/connect.js";
 
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
