@@ -1,5 +1,7 @@
 import app from "./app.js";
 import { getParamsFromUrl } from "./utils/utils.js";
+import * as path from "path";
+import { dirname } from "path";
 import {
   connectServer,
   getAllBikesWhere,
@@ -10,13 +12,10 @@ import {
   getAllBikesWithPagination,
   createBikePath,
 } from "./database/connect.js";
-import * as path from "path";
-import { dirname } from "path";
-import { stringify } from "querystring";
+
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
 const __dirname = dirname(__filename);
-
 const PORT = 3000;
 let connection;
 
