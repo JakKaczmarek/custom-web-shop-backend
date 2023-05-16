@@ -16,7 +16,7 @@ import { connectServer } from "./database/connect.js";
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
 const __dirname = dirname(__filename);
-const PORT = 3000;
+const PORT = 8000;
 let connection;
 
 // TEST GET
@@ -25,9 +25,9 @@ app.get("/test", (req, res) => {
   res.status(200).send({ bikeTitle: "testBike" });
 });
 
-// Uploading files http://localhost:3000
+// Uploading files http://localhost:8000
 
-app.get("/", (req, res) => {
+app.get("/file", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 app.post("/upload", async (req, res) => {
@@ -47,7 +47,7 @@ app.post("/upload", async (req, res) => {
   });
 });
 
-//GET - Pagination for example http://localhost:3000/bikes?limit=4&page=2
+//GET - Pagination for example http://localhost:8000/bikes?limit=4&page=2
 app.get("/bikes", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const params = getParamsFromUrl(req.url);

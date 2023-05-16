@@ -16,6 +16,6 @@ app.use(
 /* 
 static public
 for example when u click or type like below:
- http://localhost:3000/api/bikes/bikesImages/bike1/bike1.jpg
+ http://localhost:8000/api/bikes/bikesImages/bikeLogo/logoebike.png
 */
 export default app;
