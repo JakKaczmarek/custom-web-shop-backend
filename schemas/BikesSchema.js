@@ -10,11 +10,20 @@ export default new EntitySchema({
       type: "int",
       generated: true,
     },
-    bikeTitle: {
+    bikeName: {
       type: "varchar",
     },
     price: {
       type: "int",
+    },
+    category: {
+      type: "varchar",
+    },
+    src: {
+      type: "varchar",
+    },
+    alt: {
+      type: "varchar",
     },
   },
   relations: {

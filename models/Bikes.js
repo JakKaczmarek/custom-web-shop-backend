@@ -1,8 +1,11 @@
 export class Bikes {
-  constructor(id, bikeTitle, price, images) {
+  constructor(id, bikeName, price, images, category, alt, src) {
     this.id = id;
-    this.bikeTitle = bikeTitle;
+    this.bikeName = bikeName;
     this.price = price;
+    this.category = category;
+    this.src = src;
+    this.alt = alt;
     this.images = images;
   }
 }

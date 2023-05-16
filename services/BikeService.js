@@ -45,13 +45,18 @@ async function getOneBike(connection, params) {
 
 async function createBikePath(connection, data) {
   const name = data;
-  const category1 = new Images(`/images/${name}`);
+  const category1 = new Images(
+    `http://localhost:8000/api/bikes/bikesImages/bikeTest/${name}`
+  );
   await connection.manager.save([category1]);
 
   const newPost = new Bikes();
 
-  newPost.bikeTitle = "testBike";
-  newPost.price = 200;
+  newPost.bikeName = "testBike";
+  newPost.price = 5000;
+  newPost.category = "Test";
+  newPost.src = "http://localhost:8000/api/bikes/bikesImages/bike1/bike1.jpg";
+  newPost.alt = "bike4";
   newPost.images = [category1];
 
   const bikeRepository = connection.getRepository(Bikes);
@@ -62,14 +67,19 @@ async function createBikePath(connection, data) {
 // POST
 
 async function createBike(connection, bikeData) {
-  const { price, bikeTitle } = bikeData;
-  const category1 = new Images("/images/{name}.png");
+  const { price, bikeTitle, category, src, alt } = bikeData;
+  const category1 = new Images(
+    "http://localhost:8000/api/bikes/bikesImages/bikeTest/{name}.png"
+  );
   await connection.manager.save([category1]);
 
   const newPost = new Bikes();
 
   newPost.bikeTitle = bikeTitle;
   newPost.price = price;
+  newPost.category = category;
+  newPost.src = src;
+  newPost.alt = alt;
   newPost.images = [category1];
 
   const bikeRepository = connection.getRepository(Bikes);
