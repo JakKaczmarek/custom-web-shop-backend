@@ -27,11 +27,17 @@ export default new EntitySchema({
     },
   },
   relations: {
-    images: {
+    srcArray: {
       target: "Images",
-      type: "many-to-many",
-      joinTable: true,
-      cascade: true,
+      type: "one-to-many",
+      inverseSide: "bikes",
     },
   },
 });
+
+// images: {
+//   target: "Images",
+//   type: "one-to-many",
+//   joinTable: true,
+//   cascade: true,
+// },

@@ -13,5 +13,15 @@ export default new EntitySchema({
     path: {
       type: "varchar",
     },
+    bikesId: {
+      type: "int",
+    },
+  },
+  relations: {
+    bikes: {
+      target: "Bikes",
+      type: "many-to-one",
+      inverseSide: "images",
+    },
   },
 });

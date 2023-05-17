@@ -25,7 +25,34 @@ app.get("/test", (req, res) => {
   res.status(200).send({ bikeTitle: "testBike" });
 });
 
-// Uploading files http://localhost:8000
+//GET - Pagination for example http://localhost:8000/bikes?limit=4&page=2
+app.get("/bikes", async (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  const params = getParamsFromUrl(req.url);
+  const allBikes = await getAllBikesWithPagination(connection, params);
+  res.send(JSON.stringify(allBikes));
+});
+
+//GET method
+
+app.get("/api/bikes", async (req, res) => {
+  const params = getParamsFromUrl(req.url);
+  res.setHeader("Content-Type", "application/json");
+  const allBikes = await getAllBikesWhere(connection, params);
+  res.send(JSON.stringify(allBikes));
+});
+
+// GET by id method
+app.get("/api/bikes/id", async (req, res) => {
+  const params = getParamsFromUrl(req.url);
+  res.setHeader("Content-Type", "application/json");
+  const getBike = await getOneBike(connection, params);
+  res.send(JSON.stringify(getBike));
+});
+
+// Uploading files http://localhost:8000/file
 
 app.get("/file", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
@@ -47,40 +74,6 @@ app.post("/upload", async (req, res) => {
   });
 });
 
-//GET - Pagination for example http://localhost:8000/bikes?limit=4&page=2
-app.get("/bikes", async (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  const params = getParamsFromUrl(req.url);
-  const allBikes = await getAllBikesWithPagination(connection, params);
-  res.send(JSON.stringify(allBikes));
-});
-
-//GET method
-
-app.get("/api/bikes", async (req, res) => {
-  const params = getParamsFromUrl(req.url);
-  res.setHeader("Content-Type", "application/json");
-  const allBikes = await getAllBikesWhere(connection, params);
-  res.send(JSON.stringify(allBikes));
-});
-
-// DELETE bike
-
-delete ("/api/bikes/:id",
-async (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  const id = req.params.id;
-  const deleteBike = await deleteOneBike(connection, id);
-  res.send(JSON.stringify(deleteBike));
-});
-// GET by id method
-app.get("/api/bikes/id", async (req, res) => {
-  const params = getParamsFromUrl(req.url);
-  res.setHeader("Content-Type", "application/json");
-  const getBike = await getOneBike(connection, params);
-  res.send(JSON.stringify(getBike));
-});
-
 //POST method
 
 app.post("/api/bikes", async (req, res) => {
@@ -89,11 +82,22 @@ app.post("/api/bikes", async (req, res) => {
   res.send(JSON.stringify(bike));
 });
 
+//UPDATE method
+
 app.patch("/api/bikes/:id", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const id = req.params.id;
   const updateNewBike = await updateBike(connection, id, req.body);
   res.send(JSON.stringify(updateNewBike));
+});
+
+// DELETE bike
+
+app.delete("/api/bikes/delete", async (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  const params = getParamsFromUrl(req.url);
+  const deleteBike = await deleteOneBike(connection, params);
+  res.send(JSON.stringify(deleteBike));
 });
 
 const server = app.listen(PORT, async () => {

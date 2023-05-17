@@ -1,6 +1,5 @@
 import { Bikes } from "../models/Bikes.js";
 import { Images } from "../models/Images.js";
-
 // GET with pagination
 
 async function getAllBikesWithPagination(connection, params) {
@@ -11,6 +10,8 @@ async function getAllBikesWithPagination(connection, params) {
   return bikeRepository.find({
     skip: skip,
     take: take,
+    relations: ["srcArray"],
+    loadRelations: true,
   });
 }
 
@@ -22,8 +23,8 @@ async function getAllBikesWhere(connection, params) {
     order: {
       [params.sort_column]: params.sort_order,
     },
-    where: [{ price: params.price }, { bikeTitle: params.bikeTitle }],
-    relations: ["images"],
+    where: [{ price: params.price }, { bikeName: params.bikeName }],
+    relations: ["srcArray"],
     loadRelations: true,
   });
 }
@@ -31,14 +32,21 @@ async function getAllBikesWhere(connection, params) {
 // GET one by url id
 
 async function getOneBike(connection, params) {
-  const getPost = connection.getRepository(Bikes);
-  return getPost.findOne({
+  const getBike = connection.getRepository(Bikes);
+  return getBike.findOne({
     where: {
       id: params.id,
     },
-    relations: ["images"],
+    relations: ["srcArray"],
     loadRelations: true,
   });
+}
+// DELETE
+
+async function deleteOneBike(connection, params) {
+  const bikeRepository = connection.getRepository(Bikes);
+  await bikeRepository.delete({ id: params.id });
+  return bikeRepository.find();
 }
 
 // UPLOADING files with path
@@ -50,17 +58,17 @@ async function createBikePath(connection, data) {
   );
   await connection.manager.save([category1]);
 
-  const newPost = new Bikes();
+  const newBike = new Bikes();
 
-  newPost.bikeName = "testBike";
-  newPost.price = 5000;
-  newPost.category = "Test";
-  newPost.src = "http://localhost:8000/api/bikes/bikesImages/bike1/bike1.jpg";
-  newPost.alt = "bike4";
-  newPost.images = [category1];
+  newBike.bikeName = "testBike";
+  newBike.price = 5000;
+  newBike.category = "Test";
+  newBike.src = "http://localhost:8000/api/bikes/bikesImages/bike1/bike1.jpg";
+  newBike.alt = "bike4";
+  newBike.images = [category1];
 
   const bikeRepository = connection.getRepository(Bikes);
-  const savedBike = await bikeRepository.save(newPost);
+  const savedBike = await bikeRepository.save(newBike);
   return savedBike;
 }
 
@@ -73,26 +81,18 @@ async function createBike(connection, bikeData) {
   );
   await connection.manager.save([category1]);
 
-  const newPost = new Bikes();
+  const newBike = new Bikes();
 
-  newPost.bikeTitle = bikeTitle;
-  newPost.price = price;
-  newPost.category = category;
-  newPost.src = src;
-  newPost.alt = alt;
-  newPost.images = [category1];
+  newBike.bikeTitle = bikeTitle;
+  newBike.price = price;
+  newBike.category = category;
+  newBike.src = src;
+  newBike.alt = alt;
+  newBike.images = [category1];
 
   const bikeRepository = connection.getRepository(Bikes);
-  const savedBike = await bikeRepository.save(newPost);
+  const savedBike = await bikeRepository.save(newBike);
   return savedBike;
-}
-
-// DELETE
-
-async function deleteOneBike(connection, id) {
-  const bikeRepository = connection.getRepository(Bikes);
-  await bikeRepository.delete({ id });
-  return bikeRepository.find();
 }
 
 // PATCH
