@@ -1,7 +1,7 @@
 export class Images {
-  constructor(path, id, bikeId) {
+  constructor(path, id, bikesId) {
     this.id = id;
     this.path = path;
-    this.path = bikeId;
+    this.bikesId = bikesId;
   }
 }

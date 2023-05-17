@@ -51,25 +51,17 @@ async function deleteOneBike(connection, params) {
 
 // UPLOADING files with path
 
-async function createBikePath(connection, data) {
+async function createBikePath(connection, data, nr) {
   const name = data;
-  const category1 = new Images(
-    `http://localhost:8000/api/bikes/bikesImages/bikeTest/${name}`
-  );
-  await connection.manager.save([category1]);
+  const bikeNr = nr;
+  const newPath = new Images();
 
-  const newBike = new Bikes();
+  newPath.path = `http://localhost:8000/api/bikes/bikesImages/bikeTest/${name}`;
+  newPath.bikesId = bikeNr;
 
-  newBike.bikeName = "testBike";
-  newBike.price = 5000;
-  newBike.category = "Test";
-  newBike.src = "http://localhost:8000/api/bikes/bikesImages/bike1/bike1.jpg";
-  newBike.alt = "bike4";
-  newBike.images = [category1];
-
-  const bikeRepository = connection.getRepository(Bikes);
-  const savedBike = await bikeRepository.save(newBike);
-  return savedBike;
+  const pathRepository = connection.getRepository(Images);
+  const savedPath = await pathRepository.save(newPath);
+  return savedPath;
 }
 
 // POST

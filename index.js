@@ -62,15 +62,20 @@ app.post("/upload", async (req, res) => {
     return res.status(400).send("No files were uploaded.");
   }
   const file = req.files.myFile;
+  const nr = req.body.toBike;
   const path = __dirname + "/public/bikesImages/bikeTest/" + file.name;
-  const bike = await createBikePath(connection, file.name);
-  console.log(file.name);
+  const bike = await createBikePath(connection, file.name, nr);
 
   file.mv(path, (err) => {
     if (err) {
       return res.status(500).send(err);
     }
-    return res.send(JSON.stringify(bike) && { status: "success", path: path });
+    return res.send(
+      JSON.stringify(bike) && {
+        status: "success",
+        path: path,
+      }
+    );
   });
 });
 
