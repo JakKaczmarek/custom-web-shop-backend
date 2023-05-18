@@ -1,7 +1,7 @@
 import { Bikes } from "../models/Bikes.js";
 import { Images } from "../models/Images.js";
-// GET with pagination
 
+// GET with pagination
 async function getAllBikesWithPagination(connection, params) {
   const bikeRepository = connection.getRepository(Bikes);
   const take = params.limit || 10;
@@ -16,18 +16,33 @@ async function getAllBikesWithPagination(connection, params) {
 }
 
 // GET all where
-
 async function getAllBikesWhere(connection, params) {
   const bikeRepository = connection.getRepository(Bikes);
   return bikeRepository.find({
-    order: {
-      [params.sort_column]: params.sort_order,
-    },
-    where: [{ price: params.price }, { bikeName: params.bikeName }],
+    where: [
+      { category: params.category },
+      { price: params.price },
+      { bikeName: params.bikeName },
+    ],
     relations: ["srcArray"],
     loadRelations: true,
   });
 }
+// async function getAllBikesWhere(connection, params) {
+//   const bikeRepository = connection.getRepository(Bikes);
+//   return bikeRepository.find({
+//     order: {
+//       [params.sort_column]: params.sort_order,
+//     },
+//     where: [
+//       { category: params.category },
+//       { price: params.price },
+//       { bikeName: params.bikeName },
+//     ],
+//     relations: ["srcArray"],
+//     loadRelations: true,
+//   });
+// }
 
 // GET one by url id
 

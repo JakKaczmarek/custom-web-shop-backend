@@ -1,7 +1,14 @@
 import express from "express";
 import fileUpload from "express-fileupload";
-
+import cors from "cors";
 const app = express();
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use("/api/bikes", express.static("public"));
 app.use(

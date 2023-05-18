@@ -28,8 +28,6 @@ app.get("/test", (req, res) => {
 //GET - Pagination for example http://localhost:8000/bikes?limit=4&page=2
 app.get("/bikes", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   const params = getParamsFromUrl(req.url);
   const allBikes = await getAllBikesWithPagination(connection, params);
   res.send(JSON.stringify(allBikes));
@@ -38,8 +36,8 @@ app.get("/bikes", async (req, res) => {
 //GET method
 
 app.get("/api/bikes", async (req, res) => {
-  const params = getParamsFromUrl(req.url);
   res.setHeader("Content-Type", "application/json");
+  const params = getParamsFromUrl(req.url);
   const allBikes = await getAllBikesWhere(connection, params);
   res.send(JSON.stringify(allBikes));
 });
