@@ -15,11 +15,22 @@ async function getAllBikesWithPagination(connection, params) {
   });
 }
 
+// GET all bikes
+
+async function getAllBikes(connection) {
+  const bikeRepository = connection.getRepository(Bikes);
+  return bikeRepository.find({
+    relations: ["srcArray"],
+    loadRelations: true,
+  });
+}
+
 // GET all where
 async function getAllBikesWhere(connection, params) {
   const bikeRepository = connection.getRepository(Bikes);
   return bikeRepository.find({
     where: [
+      { id: params.id },
       { category: params.category },
       { price: params.price },
       { bikeName: params.bikeName },
@@ -112,6 +123,7 @@ async function updateBike(connection, id, bikeData) {
 }
 
 export {
+  getAllBikes,
   getAllBikesWhere,
   getOneBike,
   deleteOneBike,

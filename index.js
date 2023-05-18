@@ -3,6 +3,7 @@ import { getParamsFromUrl } from "./utils/utils.js";
 import * as path from "path";
 import { dirname } from "path";
 import {
+  getAllBikes,
   getAllBikesWhere,
   getOneBike,
   deleteOneBike,
@@ -25,6 +26,13 @@ app.get("/test", (req, res) => {
   res.status(200).send({ bikeTitle: "testBike" });
 });
 
+//GET all bikes
+app.get("/api/bikes/all", async (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  const allBikes = await getAllBikes(connection);
+  res.send(JSON.stringify(allBikes));
+});
+
 //GET - Pagination for example http://localhost:8000/bikes?limit=4&page=2
 app.get("/bikes", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
@@ -33,7 +41,7 @@ app.get("/bikes", async (req, res) => {
   res.send(JSON.stringify(allBikes));
 });
 
-//GET method
+//GET method where
 
 app.get("/api/bikes", async (req, res) => {
   res.setHeader("Content-Type", "application/json");

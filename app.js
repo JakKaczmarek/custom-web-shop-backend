@@ -5,10 +5,9 @@ const app = express();
 const corsOptions = {
   origin: "*",
   credentials: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
 };
 app.use(cors(corsOptions));
-
 app.use(express.json());
 app.use("/api/bikes", express.static("public"));
 app.use(
