@@ -51,10 +51,10 @@ app.get("/api/bikes", async (req, res) => {
 });
 
 // GET by id method
-app.get("/api/bikes/id", async (req, res) => {
-  const params = getParamsFromUrl(req.url);
+app.get("/api/bikes/:id", async (req, res) => {
+  const id = req.params.id;
   res.setHeader("Content-Type", "application/json");
-  const getBike = await getOneBike(connection, params);
+  const getBike = await getOneBike(connection, id);
   res.send(JSON.stringify(getBike));
 });
 

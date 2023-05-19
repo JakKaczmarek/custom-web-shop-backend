@@ -57,11 +57,11 @@ async function getAllBikesWhere(connection, params) {
 
 // GET one by url id
 
-async function getOneBike(connection, params) {
+async function getOneBike(connection, id) {
   const getBike = connection.getRepository(Bikes);
   return getBike.findOne({
     where: {
-      id: params.id,
+      id: id,
     },
     relations: ["srcArray"],
     loadRelations: true,
