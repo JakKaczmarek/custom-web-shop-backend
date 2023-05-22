@@ -15,6 +15,19 @@ async function getAllBikesWithPagination(connection, params) {
   });
 }
 
+// GET one by url id
+
+async function getOneBike(connection, id) {
+  const getBike = connection.getRepository(Bikes);
+  return getBike.findOne({
+    where: {
+      id: id,
+    },
+    relations: ["srcArray"],
+    loadRelations: true,
+  });
+}
+
 // GET all bikes
 
 async function getAllBikes(connection) {
@@ -55,26 +68,6 @@ async function getAllBikesWhere(connection, params) {
 //   });
 // }
 
-// GET one by url id
-
-async function getOneBike(connection, id) {
-  const getBike = connection.getRepository(Bikes);
-  return getBike.findOne({
-    where: {
-      id: id,
-    },
-    relations: ["srcArray"],
-    loadRelations: true,
-  });
-}
-// DELETE
-
-async function deleteOneBike(connection, params) {
-  const bikeRepository = connection.getRepository(Bikes);
-  await bikeRepository.delete({ id: params.id });
-  return bikeRepository.find();
-}
-
 // UPLOADING files with path
 
 async function createBikePath(connection, data, nr) {
@@ -94,10 +87,10 @@ async function createBikePath(connection, data, nr) {
 
 async function createBike(connection, bikeData) {
   const { price, bikeTitle, category, src, alt } = bikeData;
-  const category1 = new Images(
-    "http://localhost:8000/api/bikes/bikesImages/bikeTest/{name}.png"
-  );
-  await connection.manager.save([category1]);
+  // const category1 = new Images(
+  //   "http://localhost:8000/api/bikes/bikesImages/bikeTest/{name}.png"
+  // );
+  // await connection.manager.save([category1]);
 
   const newBike = new Bikes();
 
@@ -106,7 +99,7 @@ async function createBike(connection, bikeData) {
   newBike.category = category;
   newBike.src = src;
   newBike.alt = alt;
-  newBike.images = [category1];
+  // newBike.images = [category1];
 
   const bikeRepository = connection.getRepository(Bikes);
   const savedBike = await bikeRepository.save(newBike);
@@ -117,9 +110,16 @@ async function createBike(connection, bikeData) {
 
 async function updateBike(connection, id, bikeData) {
   const updateBikeRepository = connection.getRepository(Bikes);
-
   await updateBikeRepository.update({ id }, bikeData);
   return updateBikeRepository.findOne(id);
+}
+
+// DELETE
+
+async function deleteOneBike(connection, params) {
+  const bikeRepository = connection.getRepository(Bikes);
+  await bikeRepository.delete({ id: params.id });
+  return bikeRepository.find();
 }
 
 export {
