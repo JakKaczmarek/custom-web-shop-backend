@@ -87,11 +87,6 @@ async function createBikePath(connection, data, nr) {
 
 async function createBike(connection, bikeData) {
   const { price, bikeTitle, category, src, alt } = bikeData;
-  // const category1 = new Images(
-  //   "http://localhost:8000/api/bikes/bikesImages/bikeTest/{name}.png"
-  // );
-  // await connection.manager.save([category1]);
-
   const newBike = new Bikes();
 
   newBike.bikeTitle = bikeTitle;
@@ -99,7 +94,6 @@ async function createBike(connection, bikeData) {
   newBike.category = category;
   newBike.src = src;
   newBike.alt = alt;
-  // newBike.images = [category1];
 
   const bikeRepository = connection.getRepository(Bikes);
   const savedBike = await bikeRepository.save(newBike);
