@@ -7,9 +7,15 @@ async function getAllBikesWithPagination(connection, params) {
   const take = params.limit || 10;
   const page = params.page || 1;
   const skip = (page - 1) * take;
+
+  const whereField = params.category
+    ? { where: { category: params.category } }
+    : {};
+
   return bikeRepository.find({
     skip: skip,
     take: take,
+    ...whereField,
     relations: ["srcArray"],
     loadRelations: true,
   });
