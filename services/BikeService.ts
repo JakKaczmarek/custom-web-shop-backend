@@ -1,8 +1,8 @@
-import { Bikes } from "../models/Bikes.js";
-import { Images } from "../models/Images.js";
+import { Bikes } from "../entity/Bikes.js";
+import { Images } from "../entity/Images.js";
 
 // GET with pagination
-async function getAllBikesWithPagination(connection, params) {
+async function getAllBikesWithPagination(connection: any, params: any) {
   const bikeRepository = connection.getRepository(Bikes);
   const take = params.limit || 10;
   const page = params.page || 1;
@@ -23,7 +23,7 @@ async function getAllBikesWithPagination(connection, params) {
 
 // GET one by url id
 
-async function getOneBike(connection, id) {
+async function getOneBike(connection: any, id: number) {
   const getBike = connection.getRepository(Bikes);
   return getBike.findOne({
     where: {
@@ -36,7 +36,7 @@ async function getOneBike(connection, id) {
 
 // GET all bikes
 
-async function getAllBikes(connection) {
+async function getAllBikes(connection: any) {
   const bikeRepository = connection.getRepository(Bikes);
   return bikeRepository.find({
     relations: ["srcArray"],
@@ -45,7 +45,7 @@ async function getAllBikes(connection) {
 }
 
 // GET all where
-async function getAllBikesWhere(connection, params) {
+async function getAllBikesWhere(connection: any, params: any) {
   const bikeRepository = connection.getRepository(Bikes);
   return bikeRepository.find({
     where: [
@@ -58,28 +58,13 @@ async function getAllBikesWhere(connection, params) {
     loadRelations: true,
   });
 }
-// async function getAllBikesWhere(connection, params) {
-//   const bikeRepository = connection.getRepository(Bikes);
-//   return bikeRepository.find({
-//     order: {
-//       [params.sort_column]: params.sort_order,
-//     },
-//     where: [
-//       { category: params.category },
-//       { price: params.price },
-//       { bikeName: params.bikeName },
-//     ],
-//     relations: ["srcArray"],
-//     loadRelations: true,
-//   });
-// }
 
 // UPLOADING files with path
 
-async function createBikePath(connection, data, nr) {
+async function createBikePath(connection: any, data: string, nr: number) {
   const name = data;
   const bikeNr = nr;
-  const newPath = new Images();
+  const newPath: any = new Images();
 
   newPath.path = `http://localhost:8000/api/bikes/bikesImages/bikeTest/${name}`;
   newPath.bikesId = bikeNr;
@@ -91,9 +76,9 @@ async function createBikePath(connection, data, nr) {
 
 // POST
 
-async function createBike(connection, bikeData) {
+async function createBike(connection: any, bikeData: any) {
   const { price, bikeTitle, category, src, alt } = bikeData;
-  const newBike = new Bikes();
+  const newBike: any = new Bikes();
 
   newBike.bikeTitle = bikeTitle;
   newBike.price = price;
@@ -108,7 +93,7 @@ async function createBike(connection, bikeData) {
 
 // PATCH
 
-async function updateBike(connection, id, bikeData) {
+async function updateBike(connection: any, id: number, bikeData: any) {
   const updateBikeRepository = connection.getRepository(Bikes);
   await updateBikeRepository.update({ id }, bikeData);
   return updateBikeRepository.findOne(id);
@@ -116,7 +101,7 @@ async function updateBike(connection, id, bikeData) {
 
 // DELETE
 
-async function deleteOneBike(connection, params) {
+async function deleteOneBike(connection: any, params: any) {
   const bikeRepository = connection.getRepository(Bikes);
   await bikeRepository.delete({ id: params.id });
   return bikeRepository.find();

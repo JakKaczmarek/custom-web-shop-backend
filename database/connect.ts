@@ -1,6 +1,6 @@
 import { createConnection } from "typeorm";
-import BikesSchema from "../schemas/BikesSchema.js";
-import ImagesSchema from "../schemas/ImagesSchema.js";
+import { Bikes } from "../entity/Bikes.js";
+import { Images } from "../entity/Images.js";
 
 const connectServer = async () => {
   try {
@@ -9,7 +9,7 @@ const connectServer = async () => {
       database: "./bikes.sqlite3",
       synchronize: true,
       logging: false,
-      entities: [BikesSchema, ImagesSchema],
+      entities: [Bikes, Images],
     });
   } catch (error) {
     console.log("Error: ", error);

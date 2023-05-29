@@ -18,23 +18,23 @@ const mydir = "./index.js";
 const __filename = path.resolve(mydir);
 const __dirname = dirname(__filename);
 const PORT = 8000;
-let connection;
+let connection: any;
 
 // TEST GET
-app.get("/test", (req, res) => {
+app.get("/test", (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   res.status(200).send({ bikeTitle: "testBike" });
 });
 
 //GET all bikes
-app.get("/api/bikes/all", async (req, res) => {
+app.get("/api/bikes/all", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const allBikes = await getAllBikes(connection);
   res.send(JSON.stringify(allBikes));
 });
 
 //GET - Pagination for example http://localhost:8000/bikes?limit=4&page=2
-app.get("/bikes", async (req, res) => {
+app.get("/bikes", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const params = getParamsFromUrl(req.url);
   const allBikes = await getAllBikesWithPagination(connection, params);
@@ -43,7 +43,7 @@ app.get("/bikes", async (req, res) => {
 
 //GET method where
 
-app.get("/api/bikes", async (req, res) => {
+app.get("/api/bikes", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const params = getParamsFromUrl(req.url);
   const allBikes = await getAllBikesWhere(connection, params);
@@ -51,7 +51,7 @@ app.get("/api/bikes", async (req, res) => {
 });
 
 // GET by id method
-app.get("/api/bikes/:id", async (req, res) => {
+app.get("/api/bikes/:id", async (req: any, res: any) => {
   const id = req.params.id;
   res.setHeader("Content-Type", "application/json");
   const getBike = await getOneBike(connection, id);
@@ -60,10 +60,10 @@ app.get("/api/bikes/:id", async (req, res) => {
 
 // Uploading files http://localhost:8000/file
 
-app.get("/file", (req, res) => {
+app.get("/file", (req: any, res: any) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
-app.post("/upload", async (req, res) => {
+app.post("/upload", async (req: any, res: any) => {
   if (!req.files) {
     return res.status(400).send("No files were uploaded.");
   }
@@ -72,7 +72,7 @@ app.post("/upload", async (req, res) => {
   const path = __dirname + "/public/bikesImages/bikeTest/" + file.name;
   const bike = await createBikePath(connection, file.name, nr);
 
-  file.mv(path, (err) => {
+  file.mv(path, (err: any) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -87,7 +87,7 @@ app.post("/upload", async (req, res) => {
 
 //POST method
 
-app.post("/api/bikes", async (req, res) => {
+app.post("/api/bikes", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const bike = await createBike(connection, req.body);
   res.send(JSON.stringify(bike));
@@ -95,7 +95,7 @@ app.post("/api/bikes", async (req, res) => {
 
 //UPDATE method
 
-app.patch("/api/bikes/:id", async (req, res) => {
+app.patch("/api/bikes/:id", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const id = req.params.id;
   const updateNewBike = await updateBike(connection, id, req.body);
@@ -104,7 +104,7 @@ app.patch("/api/bikes/:id", async (req, res) => {
 
 // DELETE bike
 
-app.delete("/api/bikes/delete", async (req, res) => {
+app.delete("/api/bikes/delete", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const params = getParamsFromUrl(req.url);
   const deleteBike = await deleteOneBike(connection, params);

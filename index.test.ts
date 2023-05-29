@@ -1,6 +1,6 @@
 import { createConnection, getConnection, getRepository } from "typeorm";
 import { Bikes } from "./models/Bikes.js";
-import BikesSchema from "./schemas/BikesSchema";
+import BikesSchema from "./schemas/BikesSchema.js";
 import ImagesSchema from "./schemas/ImagesSchema.js";
 import server from "./index.js";
 import request from "supertest";
