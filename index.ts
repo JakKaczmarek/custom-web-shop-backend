@@ -1,4 +1,5 @@
 import app from "./app.js";
+import * as fs from "fs";
 import { getParamsFromUrl } from "./utils/utils.js";
 import * as path from "path";
 import { dirname } from "path";
@@ -60,18 +61,17 @@ app.get("/api/bikes/:id", async (req: any, res: any) => {
 
 // Uploading files http://localhost:8000/file
 
-app.get("/file", (req: any, res: any) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
 app.post("/upload", async (req: any, res: any) => {
   if (!req.files) {
     return res.status(400).send("No files were uploaded.");
   }
-  const file = req.files.myFile;
-  const nr = req.body.toBike;
+  if (!req.body.bikesId) {
+    return res.status(400).send("No bikesId were uploaded");
+  }
+  const file = req.files.file;
+  const nr = req.body.bikesId;
   const path = __dirname + "/public/bikesImages/bikeTest/" + file.name;
   const bike = await createBikePath(connection, file.name, nr);
-
   file.mv(path, (err: any) => {
     if (err) {
       return res.status(500).send(err);

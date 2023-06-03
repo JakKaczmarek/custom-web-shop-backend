@@ -77,10 +77,10 @@ async function createBikePath(connection: any, data: string, nr: number) {
 // POST
 
 async function createBike(connection: any, bikeData: any) {
-  const { price, bikeTitle, category, src, alt } = bikeData;
+  const { price, bikeName, category, src, alt } = bikeData;
   const newBike: any = new Bikes();
 
-  newBike.bikeTitle = bikeTitle;
+  newBike.bikeName = bikeName;
   newBike.price = price;
   newBike.category = category;
   newBike.src = src;
