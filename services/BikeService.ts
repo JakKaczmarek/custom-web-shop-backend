@@ -8,14 +8,18 @@ async function getAllBikesWithPagination(connection: any, params: any) {
   const page = params.page || 1;
   const skip = (page - 1) * take;
 
-  const whereField = params.category
+  const whereFieldCategory = params.category
     ? { where: { category: params.category } }
     : {};
 
+  const whereFieldBikeNameHave = params.bikeName
+    ? { where: `bikeName LIKE '%${params.bikeName}%'` }
+    : {};
   return bikeRepository.find({
     skip: skip,
     take: take,
-    ...whereField,
+    ...whereFieldCategory,
+    ...whereFieldBikeNameHave,
     relations: ["srcArray"],
     loadRelations: true,
   });
