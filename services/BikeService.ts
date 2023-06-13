@@ -4,7 +4,7 @@ import { Images } from "../entity/Images.js";
 // GET with pagination
 async function getAllBikesWithPagination(connection: any, params: any) {
   const bikeRepository = connection.getRepository(Bikes);
-  const take = params.limit || 10;
+  const take = params.limit || 100;
   const page = params.page || 1;
   const skip = (page - 1) * take;
 
