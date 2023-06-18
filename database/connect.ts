@@ -1,18 +1,27 @@
-import { createConnection } from "typeorm";
 import { Bikes } from "../entity/Bikes.js";
 import { Images } from "../entity/Images.js";
+import { createConnection } from "typeorm";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const connectServer = async () => {
   try {
-    return await createConnection({
-      type: "sqlite",
-      database: "./bikes.sqlite3",
-      synchronize: true,
-      logging: false,
+    const connection = await createConnection({
+      type: "postgres",
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT || "5432", 10),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
       entities: [Bikes, Images],
+      synchronize: true,
     });
+
+    return connection;
   } catch (error) {
-    console.log("Error: ", error);
+    console.error("Error connecting to the database:", error);
+    return null;
   }
 };
 
