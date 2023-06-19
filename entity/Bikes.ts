@@ -7,7 +7,7 @@ export class Bikes {
   id!: number;
 
   @Column()
-  bikeName?: string;
+  bike_name?: string;
 
   @Column()
   price?: number;

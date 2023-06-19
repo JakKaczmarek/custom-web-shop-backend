@@ -12,8 +12,8 @@ async function getAllBikesWithPagination(connection: any, params: any) {
     ? { where: { category: params.category } }
     : {};
 
-  const whereFieldBikeNameHave = params.bikeName
-    ? { where: `bikeName LIKE '%${params.bikeName}%'` }
+  const whereFieldBikeNameHave = params.bike_name
+    ? { where: `bike_name LIKE '%${params.bike_name}%'` }
     : {};
   return bikeRepository.find({
     skip: skip,
@@ -56,7 +56,7 @@ async function getAllBikesWhere(connection: any, params: any) {
       { id: params.id },
       { category: params.category },
       { price: params.price },
-      { bikeName: params.bikeName },
+      { bike_name: params.bike_name },
     ],
     relations: ["srcArray"],
     loadRelations: true,
@@ -81,10 +81,10 @@ async function createBikePath(connection: any, data: string, nr: number) {
 // POST
 
 async function createBike(connection: any, bikeData: any) {
-  const { price, bikeName, category, src, alt } = bikeData;
+  const { price, bike_name, category, src, alt } = bikeData;
   const newBike: any = new Bikes();
 
-  newBike.bikeName = bikeName;
+  newBike.bike_name = bike_name;
   newBike.price = price;
   newBike.category = category;
   newBike.src = src;
