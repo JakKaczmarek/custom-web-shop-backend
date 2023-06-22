@@ -13,6 +13,7 @@ import {
   getAllBikesWithPagination,
   createBikePath,
 } from "./services/BikeService.js";
+import { createTestBikes } from "./services/testBikesService.js";
 import { connectServer } from "./database/connect.js";
 
 const mydir = "./index.js";
@@ -114,6 +115,7 @@ app.delete("/api/bikes/delete", async (req: any, res: any) => {
 const server = app.listen(PORT, async () => {
   console.log(`Listening at localhost:${PORT}`);
   connection = await connectServer();
+  await createTestBikes(connection);
 });
 
 export default server;
