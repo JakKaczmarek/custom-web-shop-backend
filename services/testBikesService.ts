@@ -52,4 +52,11 @@ async function createTestBikes(connection: any) {
   }
 }
 
-export { createTestBikes };
+async function checkDb(connection: any) {
+  const bikeRepository = connection.getRepository(Bikes);
+  const count = await bikeRepository.count();
+
+  return count === 0;
+}
+
+export { createTestBikes, checkDb };
