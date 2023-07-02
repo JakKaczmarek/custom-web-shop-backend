@@ -13,11 +13,9 @@ import {
   getAllBikesWithPagination,
   createBikePath,
 } from "./services/BikeService.js";
-import {
-  createTestBikes,
-  checkDb,
-} from "./services/testBikesService.js";
+import { createTestBikes, checkDb } from "./services/testBikesService.js";
 import { connectServer } from "./database/connect.js";
+import { createUser, getUserByLogin } from "./services/UserService.js";
 
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
@@ -115,11 +113,26 @@ app.delete("/api/bikes/delete", async (req: any, res: any) => {
   res.send(JSON.stringify(deleteBike));
 });
 
+// CREATE user
+app.post("/api/users", async (req: any, res: any) => {
+  res.setHeader("Content-Type", "application/json");
+  const user = await createUser(connection, req.body);
+  res.send(JSON.stringify(user));
+});
+
+// GET user by login
+app.get("/api/users/:login", async (req: any, res: any) => {
+  const login = req.params.login;
+  res.setHeader("Content-Type", "application/json");
+  const user = await getUserByLogin(connection, login);
+  res.send(JSON.stringify(user));
+});
+
 const server = app.listen(PORT, async () => {
   console.log(`Listening at localhost:${PORT}`);
   connection = await connectServer();
   if (await checkDb(connection)) {
-    await createTestBikes(connection);
+    // await createTestBikes(connection);
   }
 });
 
