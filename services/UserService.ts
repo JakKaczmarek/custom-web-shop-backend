@@ -1,10 +1,10 @@
 import { Users } from "../entity/Users.js";
 
 async function createUser(connection: any, userData: any) {
-  const { login, password } = userData;
+  const { email, password } = userData;
   const newUser: any = new Users();
 
-  newUser.login = login;
+  newUser.email = email;
   newUser.password = password;
 
   const userRepository = connection.getRepository(Users);
@@ -12,9 +12,9 @@ async function createUser(connection: any, userData: any) {
   return savedUser;
 }
 
-async function getUserByLogin(connection: any, login: string) {
+async function getUserByEmail(connection: any, email: string) {
   const userRepository = connection.getRepository(Users);
-  return userRepository.findOne({ where: { login } });
+  return userRepository.findOne({ where: { email } });
 }
 
-export { createUser, getUserByLogin };
+export { createUser, getUserByEmail };
