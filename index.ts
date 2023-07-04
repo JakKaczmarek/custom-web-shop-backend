@@ -123,8 +123,9 @@ app.post("/api/users/register", async (req: any, res: any) => {
 // GET user by email
 app.get("/api/users/:email", async (req: any, res: any) => {
   const email = req.params.email;
+  const token = req.headers.authorization?.split(" ")[1];
   res.setHeader("Content-Type", "application/json");
-  const user = await getUserByEmail(connection, email);
+  const user = await getUserByEmail(connection, email, token);
   res.send(JSON.stringify(user));
 });
 
