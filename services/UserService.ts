@@ -1,9 +1,6 @@
 import { Users } from "../entity/Users.js";
-import jwt, { JwtPayload } from "jsonwebtoken";
-
-interface DecodedToken extends JwtPayload {
-  userId: number;
-}
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 async function createUser(connection: any, userData: any) {
   const { email, password } = userData;
@@ -15,28 +12,29 @@ async function createUser(connection: any, userData: any) {
   const userRepository = connection.getRepository(Users);
   const savedUser = await userRepository.save(newUser);
 
-  const token = jwt.sign({ userId: savedUser.id }, "abc", {
-    expiresIn: "1h", 
-  });
-
-  savedUser.token = token;
-
   return savedUser;
 }
 
-async function getUserByEmail(connection: any, email: string, token: string) {
+async function loginUser(connection: any, email: string, password: string) {
   const userRepository = connection.getRepository(Users);
-
+  dotenv.config();
   try {
-    const decoded = jwt.verify(token, "abc") as DecodedToken;
-    const user = await userRepository.findOne({ where: { email } });
-    if (user && user.id === decoded.userId) {
-      return user;
+    const user = await userRepository.findOne({ where: { email, password } });
+    if (user) {
+      const token = jwt.sign(
+        { userId: user.id },
+        `${process.env.TOKEN_SECRET}`,
+        {
+          expiresIn: "30m",
+        }
+      );
+      return token;
     } else {
-      throw new Error("Invalid token or user not found");
+      throw new Error("Invalid email or password");
     }
   } catch (error) {
-    throw new Error("Invalid token");
+    throw new Error("Invalid email or password");
   }
 }
-export { createUser, getUserByEmail };
+
+export { createUser, loginUser };

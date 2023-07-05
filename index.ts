@@ -15,7 +15,7 @@ import {
 } from "./services/BikeService.js";
 import { createTestBikes, checkDb } from "./services/testBikesService.js";
 import { connectServer } from "./database/connect.js";
-import { createUser, getUserByEmail } from "./services/UserService.js";
+import { createUser, loginUser } from "./services/UserService.js";
 
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
@@ -120,13 +120,16 @@ app.post("/api/users/register", async (req: any, res: any) => {
   res.send(JSON.stringify(user));
 });
 
-// GET user by email
-app.get("/api/users/:email", async (req: any, res: any) => {
-  const email = req.params.email;
-  const token = req.headers.authorization?.split(" ")[1];
+// LOGIN user
+app.post("/api/users/login", async (req: any, res: any) => {
+  const { email, password } = req.body;
   res.setHeader("Content-Type", "application/json");
-  const user = await getUserByEmail(connection, email, token);
-  res.send(JSON.stringify(user));
+  try {
+    const token = await loginUser(connection, email, password);
+    res.send(JSON.stringify({ token }));
+  } catch (error: any) {
+    res.status(401).send(JSON.stringify({ error: error.message }));
+  }
 });
 
 const server = app.listen(PORT, async () => {
