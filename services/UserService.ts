@@ -14,6 +14,7 @@ async function createUser(connection: any, userData: any) {
 
   return savedUser;
 }
+let previousToken: string | null = null;
 
 async function loginUser(connection: any, email: string, password: string) {
   const userRepository = connection.getRepository(Users);
@@ -21,19 +22,43 @@ async function loginUser(connection: any, email: string, password: string) {
   try {
     const user = await userRepository.findOne({ where: { email, password } });
     if (user) {
-      const token = jwt.sign(
-        { userId: user.id },
-        `${process.env.TOKEN_SECRET}`,
-        {
-          expiresIn: "30m",
-        }
-      );
-      return token;
+      if (previousToken && !isTokenValid(previousToken)) {
+        const token = jwt.sign(
+          { userId: user.id },
+          `${process.env.TOKEN_SECRET}`,
+          {
+            expiresIn: "5m",
+          }
+        );
+        previousToken = token;
+        return token;
+      } else if (previousToken && isTokenValid(previousToken)) {
+        return previousToken;
+      } else {
+        const token = jwt.sign(
+          { userId: user.id },
+          `${process.env.TOKEN_SECRET}`,
+          {
+            expiresIn: "5m",
+          }
+        );
+        previousToken = token;
+        return token;
+      }
     } else {
       throw new Error("Invalid email or password");
     }
   } catch (error) {
     throw new Error("Invalid email or password");
+  }
+}
+
+function isTokenValid(token: string): boolean {
+  try {
+    jwt.verify(token, `${process.env.TOKEN_SECRET}`);
+    return true;
+  } catch (error) {
+    return false;
   }
 }
 
