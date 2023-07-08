@@ -1,6 +1,8 @@
 import express from "express";
 import fileUpload from "express-fileupload";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
 const app = express();
 const corsOptions = {
   origin: "*",
@@ -18,7 +20,7 @@ app.use(
     abortOnLimit: true,
   })
 );
-
+app.use(cookieParser());
 /* 
 static public
 for example when u click or type like below:

@@ -15,7 +15,7 @@ import {
 } from "./services/BikeService.js";
 import { createTestBikes, checkDb } from "./services/testBikesService.js";
 import { connectServer } from "./database/connect.js";
-import { createUser, loginUser } from "./services/UserService.js";
+import { createUser, isTokenValid, loginUser } from "./services/UserService.js";
 
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
@@ -130,6 +130,13 @@ app.post("/api/users/login", async (req: any, res: any) => {
   } catch (error: any) {
     res.status(401).send(JSON.stringify({ error: error.message }));
   }
+});
+
+// VERIFY token
+app.post("/api/users/verify", (req, res) => {
+  const { token } = req.body;
+  const isValid = isTokenValid(token);
+  res.json({ isValid });
 });
 
 const server = app.listen(PORT, async () => {

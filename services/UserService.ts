@@ -62,4 +62,4 @@ function isTokenValid(token: string): boolean {
   }
 }
 
-export { createUser, loginUser };
+export { createUser, loginUser, isTokenValid };
