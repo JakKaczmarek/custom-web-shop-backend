@@ -8,6 +8,7 @@ async function createUser(connection: any, userData: any) {
 
   newUser.email = email;
   newUser.password = password;
+  newUser.role = "normal";
 
   const userRepository = connection.getRepository(Users);
   const savedUser = await userRepository.save(newUser);
@@ -22,28 +23,29 @@ async function loginUser(connection: any, email: string, password: string) {
   try {
     const user = await userRepository.findOne({ where: { email, password } });
     if (user) {
+      const { id, role } = user;
       if (previousToken && !isTokenValid(previousToken)) {
         const token = jwt.sign(
-          { userId: user.id },
+          { userId: id, role },
           `${process.env.TOKEN_SECRET}`,
           {
             expiresIn: "5m",
           }
         );
         previousToken = token;
-        return token;
+        return { token, role };
       } else if (previousToken && isTokenValid(previousToken)) {
-        return previousToken;
+        return { token: previousToken, role };
       } else {
         const token = jwt.sign(
-          { userId: user.id },
+          { userId: id, role },
           `${process.env.TOKEN_SECRET}`,
           {
             expiresIn: "5m",
           }
         );
         previousToken = token;
-        return token;
+        return { token, role };
       }
     } else {
       throw new Error("Invalid email or password");

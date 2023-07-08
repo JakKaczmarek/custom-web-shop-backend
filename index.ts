@@ -125,8 +125,8 @@ app.post("/api/users/login", async (req: any, res: any) => {
   const { email, password } = req.body;
   res.setHeader("Content-Type", "application/json");
   try {
-    const token = await loginUser(connection, email, password);
-    res.send(JSON.stringify({ token }));
+    const { token, role } = await loginUser(connection, email, password);
+    res.send(JSON.stringify({ token, role }));
   } catch (error: any) {
     res.status(401).send(JSON.stringify({ error: error.message }));
   }
