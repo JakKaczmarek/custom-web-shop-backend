@@ -1,5 +1,4 @@
 import app from "./app.js";
-import * as fs from "fs";
 import { getParamsFromUrl } from "./utils/utils.js";
 import * as path from "path";
 import { dirname } from "path";
@@ -16,6 +15,7 @@ import {
 import { createTestBikes, checkDb } from "./services/testBikesService.js";
 import { connectServer } from "./database/connect.js";
 import { createUser, isTokenValid, loginUser } from "./services/UserService.js";
+import { createOrder, getAllOrders } from "./services/OrderService.js";
 
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
@@ -36,7 +36,7 @@ app.get("/api/bikes/all", async (req: any, res: any) => {
   res.send(JSON.stringify(allBikes));
 });
 
-//GET - Pagination for example http://localhost:8000/bikes?limit=4&page=2
+//GET Pagination
 app.get("/bikes", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const params = getParamsFromUrl(req.url);
@@ -44,7 +44,7 @@ app.get("/bikes", async (req: any, res: any) => {
   res.send(JSON.stringify(allBikes));
 });
 
-//GET method where
+//GET where
 
 app.get("/api/bikes", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
@@ -53,7 +53,7 @@ app.get("/api/bikes", async (req: any, res: any) => {
   res.send(JSON.stringify(allBikes));
 });
 
-// GET by id method
+// GET by id
 app.get("/api/bikes/:id", async (req: any, res: any) => {
   const id = req.params.id;
   res.setHeader("Content-Type", "application/json");
@@ -61,7 +61,7 @@ app.get("/api/bikes/:id", async (req: any, res: any) => {
   res.send(JSON.stringify(getBike));
 });
 
-// Uploading files http://localhost:8000/file
+// Uploading files
 
 app.post("/upload", async (req: any, res: any) => {
   if (!req.files) {
@@ -137,6 +137,20 @@ app.post("/api/users/verify", (req, res) => {
   const { token } = req.body;
   const isValid = isTokenValid(token);
   res.json({ isValid });
+});
+
+// CREATE order
+app.post("/api/orders/register", async (req: any, res: any) => {
+  res.setHeader("Content-Type", "application/json");
+  const order = await createOrder(connection, req.body);
+  res.send(JSON.stringify(order));
+});
+
+//GET all orders
+app.get("/api/orders/all", async (req: any, res: any) => {
+  res.setHeader("Content-Type", "application/json");
+  const allOrders = await getAllOrders(connection);
+  res.send(JSON.stringify(allOrders));
 });
 
 const server = app.listen(PORT, async () => {

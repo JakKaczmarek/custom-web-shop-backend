@@ -1,6 +1,7 @@
 import { Bikes } from "../entity/Bikes.js";
 import { Images } from "../entity/Images.js";
 import { Users } from "../entity/Users.js";
+import { Orders } from "../entity/Orders.js";
 import { createConnection } from "typeorm";
 import dotenv from "dotenv";
 
@@ -15,7 +16,7 @@ const connectServer = async () => {
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Bikes, Images, Users],
+      entities: [Bikes, Images, Users, Orders],
       synchronize: true,
     });
 
