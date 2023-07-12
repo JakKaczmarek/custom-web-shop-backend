@@ -16,4 +16,16 @@ export class Orders {
 
   @Column()
   total_amount?: number;
+
+  @Column()
+  country?: string;
+
+  @Column()
+  city?: string;
+
+  @Column()
+  phone?: string;
+
+  @Column()
+  postal_code?: string;
 }
