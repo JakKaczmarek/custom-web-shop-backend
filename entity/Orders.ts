@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import { Users } from "./Users";
 
 @Entity()
 export class Orders {
@@ -28,4 +35,8 @@ export class Orders {
 
   @Column()
   postal_code?: string;
+
+  @ManyToOne(() => Users, (user: Users) => user.orders)
+  @JoinColumn({ name: "user_id" })
+  user: Users | undefined;
 }

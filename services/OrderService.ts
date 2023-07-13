@@ -1,6 +1,7 @@
 import { Orders } from "../entity/Orders";
+import { Users } from "../entity/Users";
 
-async function createOrder(connection: any, orderData: any) {
+async function createOrder(connection: any, orderData: any, userId: number) {
   const {
     name,
     email,
@@ -13,6 +14,9 @@ async function createOrder(connection: any, orderData: any) {
   } = orderData;
   const newOrder: any = new Orders();
 
+  const userRepository = connection.getRepository(Users);
+  const user = await userRepository.findOne({ email: email });
+
   newOrder.name = name;
   newOrder.email = email;
   newOrder.shipping_address = shipping_address;
@@ -21,6 +25,7 @@ async function createOrder(connection: any, orderData: any) {
   newOrder.phone = phone;
   newOrder.city = city;
   newOrder.country = country;
+  newOrder.user = user;
 
   const orderRepository = connection.getRepository(Orders);
   const savedUser = await orderRepository.save(newOrder);

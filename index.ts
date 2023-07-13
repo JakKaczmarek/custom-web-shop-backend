@@ -142,7 +142,7 @@ app.post("/api/users/verify", (req, res) => {
 // CREATE order
 app.post("/api/orders/register", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
-  const order = await createOrder(connection, req.body);
+  const order = await createOrder(connection, req.body, req.body.email);
   res.send(JSON.stringify(order));
 });
 

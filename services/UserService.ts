@@ -26,26 +26,26 @@ async function loginUser(connection: any, email: string, password: string) {
       const { id, role } = user;
       if (previousToken && !isTokenValid(previousToken)) {
         const token = jwt.sign(
-          { userId: id, role },
+          { user_id: id, role },
           `${process.env.TOKEN_SECRET}`,
           {
             expiresIn: "5m",
           }
         );
         previousToken = token;
-        return { token, role };
+        return { token, role, user_id: id };
       } else if (previousToken && isTokenValid(previousToken)) {
-        return { token: previousToken, role };
+        return { token: previousToken, role, user_id: id };
       } else {
         const token = jwt.sign(
-          { userId: id, role },
+          { user_id: id, role },
           `${process.env.TOKEN_SECRET}`,
           {
             expiresIn: "5m",
           }
         );
         previousToken = token;
-        return { token, role };
+        return { token, role, user_id: email };
       }
     } else {
       throw new Error("Invalid email or password");
