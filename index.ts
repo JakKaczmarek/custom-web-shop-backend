@@ -15,7 +15,11 @@ import {
 import { createTestBikes, checkDb } from "./services/testBikesService.js";
 import { connectServer } from "./database/connect.js";
 import { createUser, isTokenValid, loginUser } from "./services/UserService.js";
-import { createOrder, getAllOrders } from "./services/OrderService.js";
+import {
+  createOrder,
+  getAllOrders,
+  getAllOrdersWhere,
+} from "./services/OrderService.js";
 
 const mydir = "./index.js";
 const __filename = path.resolve(mydir);
@@ -151,6 +155,15 @@ app.get("/api/orders/all", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const allOrders = await getAllOrders(connection);
   res.send(JSON.stringify(allOrders));
+});
+
+//GET where
+
+app.get("/api/orders", async (req: any, res: any) => {
+  res.setHeader("Content-Type", "application/json");
+  const params = getParamsFromUrl(req.url);
+  const allOrdersWhere = await getAllOrdersWhere(connection, params);
+  res.send(JSON.stringify(allOrdersWhere));
 });
 
 const server = app.listen(PORT, async () => {

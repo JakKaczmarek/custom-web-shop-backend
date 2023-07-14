@@ -39,4 +39,13 @@ async function getAllOrders(connection: any) {
   return allOrders;
 }
 
-export { createOrder, getAllOrders };
+async function getAllOrdersWhere(connection: any, params: any) {
+  const orderRepository = connection.getRepository(Orders);
+  const allOrdersWhere = await orderRepository.find({
+    where: { user: { id: params.user_id } },
+    relations: ["user"],
+    loadRelations: true,
+  });
+  return allOrdersWhere;
+}
+export { createOrder, getAllOrders, getAllOrdersWhere };
