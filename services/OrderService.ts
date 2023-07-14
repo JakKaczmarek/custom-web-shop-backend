@@ -42,7 +42,7 @@ async function getAllOrders(connection: any) {
 async function getAllOrdersWhere(connection: any, params: any) {
   const orderRepository = connection.getRepository(Orders);
   const allOrdersWhere = await orderRepository.find({
-    where: { user: { id: params.user_id } },
+    where: { user: { email: params.email } },
     relations: ["user"],
     loadRelations: true,
   });
