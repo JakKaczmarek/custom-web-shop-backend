@@ -26,6 +26,7 @@ async function createOrder(connection: any, orderData: any, userId: number) {
   newOrder.city = city;
   newOrder.country = country;
   newOrder.user = user;
+  newOrder.created_at = new Date();
 
   const orderRepository = connection.getRepository(Orders);
   const savedUser = await orderRepository.save(newOrder);

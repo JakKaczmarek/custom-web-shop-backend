@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
 } from "typeorm";
 import { Users } from "./Users";
 
@@ -35,6 +36,9 @@ export class Orders {
 
   @Column()
   postal_code?: string;
+
+  @CreateDateColumn()
+  created_at!: Date;
 
   @ManyToOne(() => Users, (user: Users) => user.orders)
   @JoinColumn({ name: "user_id" })
