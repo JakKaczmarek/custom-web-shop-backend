@@ -17,6 +17,7 @@ import { connectServer } from "./database/connect.js";
 import { createUser, isTokenValid, loginUser } from "./services/UserService.js";
 import {
   createOrder,
+  deleteOneOrder,
   getAllOrders,
   getAllOrdersWhere,
 } from "./services/OrderService.js";
@@ -169,6 +170,15 @@ app.get("/api/orders", async (req: any, res: any) => {
   const params = getParamsFromUrl(req.url);
   const allOrdersWhere = await getAllOrdersWhere(connection, params);
   res.send(JSON.stringify(allOrdersWhere));
+});
+
+// DELETE order
+
+app.delete("/api/orders/delete", async (req: any, res: any) => {
+  res.setHeader("Content-Type", "application/json");
+  const params = getParamsFromUrl(req.url);
+  const deleteOrder = await deleteOneOrder(connection, params);
+  res.send(JSON.stringify(deleteOrder));
 });
 
 const server = app.listen(PORT, async () => {

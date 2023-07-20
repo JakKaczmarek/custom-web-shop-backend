@@ -2,6 +2,8 @@ import { Bikes } from "../entity/Bikes";
 import { Orders } from "../entity/Orders";
 import { Users } from "../entity/Users";
 
+// POST
+
 async function createOrder(
   connection: any,
   orderData: any,
@@ -44,6 +46,8 @@ async function createOrder(
   return savedUser;
 }
 
+// GET all
+
 async function getAllOrders(connection: any) {
   const orderRepository = connection.getRepository(Orders);
   const allOrders = await orderRepository.find({
@@ -52,6 +56,7 @@ async function getAllOrders(connection: any) {
   return allOrders;
 }
 
+//GET all where
 async function getAllOrdersWhere(connection: any, params: any) {
   const orderRepository = connection.getRepository(Orders);
   const allOrdersWhere = await orderRepository.find({
@@ -61,4 +66,12 @@ async function getAllOrdersWhere(connection: any, params: any) {
   });
   return allOrdersWhere;
 }
-export { createOrder, getAllOrders, getAllOrdersWhere };
+
+// DELETE
+
+async function deleteOneOrder(connection: any, params: any) {
+  const orderRepository = connection.getRepository(Orders);
+  await orderRepository.delete({ id: params.id });
+  return orderRepository.find();
+}
+export { createOrder, getAllOrders, getAllOrdersWhere, deleteOneOrder };
