@@ -1,12 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  ManyToMany,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Images } from "./Images.js";
-import { Orders } from "./Orders.js";
+import { OrderBike } from "./OrderBike"; // Import nowej encji OrderBike
 
 @Entity()
 export class Bikes {
@@ -28,9 +22,9 @@ export class Bikes {
   @Column()
   src?: string;
 
-  @ManyToMany(() => Orders, (order) => order.bikes)
-  orders: Orders[] | undefined;
-
-  @OneToMany((type) => Images, (image) => image.bikes)
+  @OneToMany(() => Images, (image) => image.bikes)
   srcArray?: Images[];
+
+  @OneToMany(() => OrderBike, (orderBike) => orderBike.bike)
+  orderBikes: OrderBike[] | undefined;
 }

@@ -7,9 +7,11 @@ import {
   CreateDateColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from "typeorm";
 import { Users } from "./Users";
 import { Bikes } from "./Bikes";
+import { OrderBike } from "./OrderBike"; // Import nowej encji OrderBike
 
 @Entity()
 export class Orders {
@@ -47,11 +49,14 @@ export class Orders {
   @JoinColumn({ name: "user_id" })
   user: Users | undefined;
 
-  @ManyToMany(() => Bikes)
+  @OneToMany(() => OrderBike, (orderBike) => orderBike.order)
+  orderBikes: OrderBike[] | undefined;
+
+  @ManyToMany(() => Bikes) // Dodajemy relację many-to-many z encją Bikes
   @JoinTable({
-    name: "orders_bikes",
-    joinColumn: { name: "order_id", referencedColumnName: "id" },
-    inverseJoinColumn: { name: "bike_id", referencedColumnName: "id" },
+    name: "orders_bikes", // Nazwa tabeli łączącej encje
+    joinColumn: { name: "order_id", referencedColumnName: "id" }, // Klucz główny tabeli Orders
+    inverseJoinColumn: { name: "bike_id", referencedColumnName: "id" }, // Klucz główny tabeli Bikes
   })
   bikes: Bikes[] | undefined;
 }
