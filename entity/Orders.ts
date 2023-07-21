@@ -52,11 +52,11 @@ export class Orders {
   @OneToMany(() => OrderBike, (orderBike) => orderBike.order)
   orderBikes: OrderBike[] | undefined;
 
-  @ManyToMany(() => Bikes) // Dodajemy relację many-to-many z encją Bikes
+  @ManyToMany(() => Bikes) 
   @JoinTable({
-    name: "orders_bikes", // Nazwa tabeli łączącej encje
-    joinColumn: { name: "order_id", referencedColumnName: "id" }, // Klucz główny tabeli Orders
-    inverseJoinColumn: { name: "bike_id", referencedColumnName: "id" }, // Klucz główny tabeli Bikes
+    name: "orders_bikes", 
+    joinColumn: { name: "order_id", referencedColumnName: "id" }, 
+    inverseJoinColumn: { name: "bike_id", referencedColumnName: "id" },
   })
   bikes: Bikes[] | undefined;
 }

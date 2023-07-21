@@ -27,7 +27,7 @@ async function createOrder(
   const orderBikeRepository = connection.getRepository(OrderBike);
 
   const user = await userRepository.findOne({ email: email });
-  const bikes = await bikeRepository.findByIds(bikeIds.map((bike) => bike.id)); // Pobieramy rowery na podstawie id
+  const bikes = await bikeRepository.findByIds(bikeIds.map((bike) => bike.id)); 
 
   const newOrder = new Orders();
   newOrder.name = name;
@@ -44,7 +44,7 @@ async function createOrder(
   const savedOrder = await orderRepository.save(newOrder);
 
   const orderedBikes = bikeIds.map((bikeData) => {
-    const bike = bikes.find((b: { id: number }) => b.id === bikeData.id); // Pobieramy rower na podstawie id
+    const bike = bikes.find((b: { id: number }) => b.id === bikeData.id); 
     if (!bike) {
       throw new Error(`Bike with id ${bikeData.id} not found.`);
     }

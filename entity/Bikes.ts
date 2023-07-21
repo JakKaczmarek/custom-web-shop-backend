@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Images } from "./Images.js";
-import { OrderBike } from "./OrderBike"; // Import nowej encji OrderBike
+import { OrderBike } from "./OrderBike"; 
 
 @Entity()
 export class Bikes {
