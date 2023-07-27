@@ -13,15 +13,15 @@ function randomPriceTest(minPrice: number, maxPrice: number) {
 }
 function getParamsFromUrl(url: string) {
   const params: any = {};
-  url
-    .split("?")[1]
-    .split("&")
-    .forEach((pair: any) => {
+  const query = url.split("?")[1];
+  if (query) {
+    query.split("&").forEach((pair: any) => {
       pair = pair.split("=").map(decodeURIComponent);
       if (pair && pair[0].length) {
         params[pair[0]] = pair[1];
       }
     });
+  }
   return params;
 }
 

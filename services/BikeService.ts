@@ -1,5 +1,5 @@
-import { Bikes } from "../entity/Bikes.js";
-import { Images } from "../entity/Images.js";
+import { Bikes } from "../entity/Bikes";
+import { Images } from "../entity/Images";
 
 // GET with pagination
 async function getAllBikesWithPagination(connection: any, params: any) {
@@ -16,7 +16,7 @@ async function getAllBikesWithPagination(connection: any, params: any) {
     ? { where: `bike_name ILIKE '%${params.bike_name}%'` }
     : {};
   return bikeRepository.find({
-    skip: skip, 
+    skip: skip,
     take: take,
     ...whereFieldCategory,
     ...whereFieldBikeNameHave,

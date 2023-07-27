@@ -1,26 +1,40 @@
-import { Bikes } from "../entity/Bikes.js";
-import { Images } from "../entity/Images.js";
-import { Users } from "../entity/Users.js";
-import { Orders } from "../entity/Orders.js";
-import { OrderBike } from "../entity/OrderBike.js";
+import { Bikes } from "../entity/Bikes";
+import { Images } from "../entity/Images";
+import { Users } from "../entity/Users";
+import { Orders } from "../entity/Orders";
+import { OrderBike } from "../entity/OrderBike";
 import { createConnection } from "typeorm";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const connectServer = async () => {
+const connectServer = async (environment: string) => {
   try {
-    const connection = await createConnection({
+    let connectionOptions: any = {
       type: "postgres",
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT || "5432", 10),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
+      host: "",
+      port: 5432,
+      username: "",
+      password: "",
       entities: [Bikes, Images, Users, Orders, OrderBike],
       synchronize: true,
-    });
+    };
 
+    if (environment === "development") {
+      connectionOptions.host = process.env.DB_HOST;
+      connectionOptions.database = process.env.DB_DATABASE;
+      connectionOptions.username = process.env.DB_USER;
+      connectionOptions.password = process.env.DB_PASSWORD;
+    } else if (environment === "test") {
+      connectionOptions.host = process.env.TEST_DB_HOST;
+      connectionOptions.database = process.env.TEST_DB_DATABASE;
+      connectionOptions.username = process.env.TEST_DB_USER;
+      connectionOptions.password = process.env.TEST_DB_PASSWORD;
+    } else {
+      throw new Error(`Unsupported environment: ${environment}`);
+    }
+
+    const connection = await createConnection(connectionOptions);
     return connection;
   } catch (error) {
     console.error("Error connecting to the database:", error);

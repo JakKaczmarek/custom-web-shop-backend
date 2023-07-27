@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Bikes } from "./Bikes.js";
+import { Bikes } from "./Bikes";
 
 @Entity()
 export class Images {

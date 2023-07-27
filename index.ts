@@ -183,7 +183,7 @@ app.delete("/api/orders/delete", async (req: any, res: any) => {
 
 const server = app.listen(PORT, async () => {
   console.log(`Listening at localhost:${PORT}`);
-  connection = await connectServer();
+  connection = await connectServer("development");
   if (await checkDb(connection)) {
     // await createTestBikes(connection);
   }

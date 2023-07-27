@@ -1,4 +1,4 @@
-import { Users } from "../entity/Users.js";
+import { Users } from "../entity/Users";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 

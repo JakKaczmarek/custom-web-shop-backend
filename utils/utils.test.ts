@@ -1,24 +1,33 @@
 import {
-  randomPriceTest,
   getRandomNameBaseOneTest,
+  randomPriceTest,
   getParamsFromUrl,
-} from "./utils.js";
+} from "./utils";
 
-describe("Utils test", () => {
-  it("It should return random number beetwen 1-100", () => {
-    expect(randomPriceTest(1, 100)).toBeGreaterThanOrEqual(1);
-    expect(randomPriceTest(1, 100)).toBeLessThanOrEqual(100);
+describe("getRandomNameBaseOneTest", () => {
+  const nameBase1 = ["John", "Alice", "Bob"];
+  const nameBase2 = ["Doe", "Smith", "Johnson"];
+
+  it("should return a random name composed of two words", () => {
+    const randomName = getRandomNameBaseOneTest(nameBase1, nameBase2);
+    const nameComponents = randomName.split(" ");
+    expect(nameComponents.length).toBe(2);
+    expect(nameBase1).toContain(nameComponents[0]);
+    expect(nameBase2).toContain(nameComponents[1]);
   });
-  it("If test1 and test2 are objects, function should return string", () => {
-    const test1 = ["test", "test2", "test3"];
-    const test2 = ["javascript", "javascript2", "javascript3"];
-    const myFunction = getRandomNameBaseOneTest(test1, test2);
-    expect(
-      typeof test1 === "object" &&
-        typeof test2 === "object" &&
-        typeof myFunction === "string"
-    ).toBe(true);
+});
+
+describe("randomPriceTest", () => {
+  it("should return a random price within the given range", () => {
+    const minPrice = 10;
+    const maxPrice = 50;
+    const randomPrice = randomPriceTest(minPrice, maxPrice);
+    expect(randomPrice).toBeGreaterThanOrEqual(minPrice);
+    expect(randomPrice).toBeLessThanOrEqual(maxPrice);
   });
+});
+
+describe("getParamsFromUrl", () => {
   it("It should retrun object from url", () => {
     const url = "http://localhost:3000/bikes?limit=4&page=2";
     expect(getParamsFromUrl(url)).toStrictEqual({ limit: "4", page: "2" });
