@@ -21,9 +21,5 @@ app.use(
   })
 );
 app.use(cookieParser());
-/* 
-static public
-for example when u click or type like below:
- http://localhost:8000/api/bikes/bikesImages/bikeLogo/logoebike.png
-*/
+
 export default app;
