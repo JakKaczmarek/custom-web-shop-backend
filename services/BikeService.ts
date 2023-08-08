@@ -48,6 +48,15 @@ async function getAllBikes(connection: any) {
   });
 }
 
+// GET all bikes only id and price
+
+async function getAllBikesIdPrice(connection: any) {
+  const bikeRepository = connection.getRepository(Bikes);
+  return bikeRepository.find({
+    select: ["id", "price", "bike_name", "src"],
+  });
+}
+
 // GET all where
 async function getAllBikesWhere(connection: any, params: any) {
   const bikeRepository = connection.getRepository(Bikes);
@@ -120,4 +129,5 @@ export {
   updateBike,
   getAllBikesWithPagination,
   createBikePath,
+  getAllBikesIdPrice,
 };

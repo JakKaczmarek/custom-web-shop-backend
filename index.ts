@@ -11,6 +11,7 @@ import {
   updateBike,
   getAllBikesWithPagination,
   createBikePath,
+  getAllBikesIdPrice,
 } from "./services/BikeService.js";
 import { createTestBikes, checkDb } from "./services/testBikesService.js";
 import { connectServer } from "./database/connect.js";
@@ -38,6 +39,13 @@ app.get("/test", (req: any, res: any) => {
 app.get("/api/bikes/all", async (req: any, res: any) => {
   res.setHeader("Content-Type", "application/json");
   const allBikes = await getAllBikes(connection);
+  res.send(JSON.stringify(allBikes));
+});
+
+//GET all bikes id and price
+app.get("/api/bikes/cart", async (req: any, res: any) => {
+  res.setHeader("Content-Type", "application/json");
+  const allBikes = await getAllBikesIdPrice(connection);
   res.send(JSON.stringify(allBikes));
 });
 
